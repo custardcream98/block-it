@@ -1,3 +1,4 @@
+import 'package:Blockit/core/themes/colorPalette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -32,6 +33,7 @@ class Memos extends StatefulWidget {
 class _MemosState extends State<Memos> {
   bool _isReloaded = false;
   List<String> memo = [];
+  List<Color> colors = [];
 
   Future reloadMemo() async {
     setState(() {
@@ -41,6 +43,8 @@ class _MemosState extends State<Memos> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String>? articles = prefs.getStringList('articles');
+    List<String>? colorsGot = prefs.getStringList('colors');
+
     if (articles == null) {
       setState(() {
         _isReloaded = true;
@@ -48,6 +52,8 @@ class _MemosState extends State<Memos> {
     } else {
       setState(() {
         memo = articles;
+        colors =
+            colorsGot!.map((e) => ColorPalette.colors[int.parse(e)]).toList();
         _isReloaded = true;
       });
     }
@@ -120,9 +126,17 @@ class _MemosState extends State<Memos> {
                       List<String>? articles = prefs.getStringList('articles');
                       articles!.removeAt(index);
                       prefs.setStringList('articles', articles);
+                      List<String>? colors = prefs.getStringList('colors');
+                      colors!.removeAt(index);
+                      prefs.setStringList('colors', colors);
+
                       await reloadMemo();
                     },
-                    child: Articles(index: index, memo: memo[index]),
+                    child: Articles(
+                      index: index,
+                      memo: memo[index],
+                      color: colors[index],
+                    ),
                   ),
                 ),
               // Flexible(
@@ -219,43 +233,88 @@ class AppBarActions {
 }
 
 class Articles extends StatelessWidget {
-  Articles({Key? key, required this.index, required this.memo})
+  Articles(
+      {Key? key, required this.index, required this.memo, required this.color})
       : super(key: key);
 
   int index;
   String memo;
+  Color color;
   //Future Function() reload;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      width: double.infinity,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: AppThemeData.defaultBoxBorder,
-          boxShadow: AppThemeData.defaultBoxShadow),
-      child: Text(memo),
-
-      // Row(
-      //   children: [
-      //     Expanded(child: Text(memo)),
-      //     IconButton(
-      //         onPressed: () async {
-      //           SharedPreferences prefs = await SharedPreferences.getInstance();
-      //           List<String>? articles = prefs.getStringList('articles');
-      //           articles!.removeAt(index);
-      //           prefs.setStringList('articles', articles);
-      //           await reload();
-      //         },
-      //         icon: Icon(
-      //           CupertinoIcons.clear,
-      //           color: AppThemeData.mainGrayColor,
-      //           size: 15,
-      //         ))
-      //   ],
-      // ),
+    return Stack(
+      children: [
+        Container(
+            padding: EdgeInsets.all(12),
+            width: double.infinity,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: AppThemeData.defaultBoxBorder,
+                boxShadow: AppThemeData.defaultBoxShadow),
+            child: Row(
+              children: [
+                Expanded(child: Text(memo)),
+                const SizedBox(
+                  width: 32,
+                )
+              ],
+            )),
+        Positioned.fill(
+            child: Row(
+          children: [
+            const Expanded(child: SizedBox.shrink()),
+            GestureDetector(
+              onTap: () async {
+                // await showCupertinoDialog(
+                //     context: context,
+                //     builder: (context) {
+                //       return CupertinoAlertDialog(
+                //           title: Text('ff'),
+                //           content: GridView.builder(
+                //               itemCount: ColorPalette.colors.length,
+                //               gridDelegate:
+                //                   const SliverGridDelegateWithFixedCrossAxisCount(
+                //                       crossAxisCount: 5,
+                //                       childAspectRatio: 1,
+                //                       mainAxisSpacing: 2,
+                //                       crossAxisSpacing: 2),
+                //               itemBuilder: (context, index) => Container(
+                //                     width: 15,
+                //                     height: 15,
+                //                     decoration: BoxDecoration(
+                //                         borderRadius: BorderRadius.circular(50),
+                //                         color: ColorPalette.colors[index]),
+                //                   )));
+                //     });
+              },
+              child: Container(
+                width: 20,
+                decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: const BorderRadiusDirectional.only(
+                        topEnd: Radius.circular(12),
+                        bottomEnd: Radius.circular(12))),
+              ),
+            ),
+          ],
+        ))
+      ],
     );
+
+    //   Row(
+    //     children: [
+    //       Expanded(child: Text(memo)),
+    //       Container(
+    //         height: 10,
+    //         width: 20,
+    //         color: Colors.black,
+    //       )
+    //     ],
+    //   ),
+    // );
   }
 }
 

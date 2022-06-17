@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:Blockit/core/components/components.dart';
+import 'package:Blockit/core/themes/colorPalette.dart';
 import 'package:Blockit/screens/home/homeScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +38,18 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                     if (prefs.getStringList('articles') == null) {
                       prefs.setStringList(
                           'articles', [memoTitleController.text]);
+                      prefs.setStringList('colors', [
+                        Random().nextInt(ColorPalette.colors.length).toString()
+                      ]);
                     } else {
                       List<String>? articles = prefs.getStringList('articles');
                       articles!.add(memoTitleController.text);
+                      List<String>? colors = prefs.getStringList('colors');
+                      colors!.add(Random()
+                          .nextInt(ColorPalette.colors.length)
+                          .toString());
                       prefs.setStringList('articles', articles);
+                      prefs.setStringList('colors', colors);
                     }
 
                     if (!mounted) return;
