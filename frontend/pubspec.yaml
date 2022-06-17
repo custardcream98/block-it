@@ -35,8 +35,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.0.3
   google_fonts: ^3.0.1
+  shared_preferences: ^2.0.15
+  hive: ^2.2.2
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
+  hive_generator: ^1.1.0
+  build_runner: ^1.7.2
   flutter_test:
     sdk: flutter
 
@@ -96,6 +101,14 @@ flutter:
           weight: 400
         - asset: ./lib/core/assets/fonts/Dongle/Dongle-Bold.ttf
           weight: 700
+    - family: Nanum_Myeongjo
+      fonts:
+        - asset: ./lib/core/assets/fonts/Nanum_Myeongjo/NanumMyeongjo-Regular.ttf
+          weight: 400
+        - asset: ./lib/core/assets/fonts/Nanum_Myeongjo/NanumMyeongjo-Bold.ttf
+          weight: 700
+        - asset: ./lib/core/assets/fonts/Nanum_Myeongjo/NanumMyeongjo-ExtraBold.ttf
+          weight: 800
 
   #
   # For details regarding fonts from package dependencies,

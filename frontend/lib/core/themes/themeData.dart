@@ -1,13 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppThemeData {
   static Color primaryColor = Colors.red;
   static Color mainGrayColor = const Color.fromARGB(135, 0, 0, 0);
+  static Color mainBackgroundWhite = Color.fromARGB(255, 254, 251, 239);
 
   static ThemeData mainThemeData = ThemeData(
-      //fontFamily: 'Noto_Sans_KR',
-      backgroundColor: const Color.fromARGB(255, 212, 212, 212),
+      fontFamily: 'Noto_Sans_KR',
+      backgroundColor: mainBackgroundWhite,
       primaryColor: primaryColor,
       appBarTheme: appBarTheme,
       textTheme: textTheme,
@@ -17,37 +19,35 @@ class AppThemeData {
   static AppBarTheme appBarTheme = AppBarTheme(
       centerTitle: false,
       backgroundColor: Colors.transparent,
-      toolbarHeight: 60,
-      titleTextStyle: TextStyle(
-          fontWeight: FontWeight.w700, color: mainGrayColor, fontSize: 30),
+      toolbarHeight: 70,
+      titleTextStyle: textTheme.titleLarge,
       actionsIconTheme: IconThemeData(color: mainGrayColor, size: 30));
 
-  /// 추후 얼마든지 추가 및 변경이 가능하나, 일단은 기본 머티리얼을 따름
   static TextTheme textTheme = TextTheme(
-    titleLarge:
-        // TextStyle(
-        //     fontFamily: "Dongle",
-        //     fontWeight: FontWeight.w700,
-        //     fontSize: 37,
-        //     letterSpacing: 1.1,
-        //     color: mainGrayColor),
-
-        GoogleFonts.dongle(
-      textStyle: TextStyle(
-          fontWeight: FontWeight.w700,
-          fontSize: 37,
-          //letterSpacing: 1.1,
+      titleLarge: TextStyle(
+          fontFamily: "Nanum_Myeongjo",
+          fontWeight: FontWeight.w800,
+          fontSize: 40,
+          letterSpacing: 0.5,
           color: mainGrayColor),
-    ),
+      titleMedium: TextStyle(
+          fontFamily: "Nanum_Myeongjo",
+          fontWeight: FontWeight.w700,
+          fontSize: 20,
+          letterSpacing: 1.1,
+          color: mainGrayColor)
 
-    // TextStyle(
-    //   fontFamily: ,
-    //     fontWeight: FontWeight.w700, fontSize: 40, letterSpacing: 1.1),
-    titleMedium: const TextStyle(
-        fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
-  );
+      // const TextStyle(
+      //     fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
+      );
 
   static BorderRadius defaultBoxBorder = BorderRadius.circular(12);
+  static List<BoxShadow> defaultBoxShadow = [
+    const BoxShadow(
+        color: Color.fromARGB(32, 148, 148, 148),
+        blurRadius: 10,
+        spreadRadius: 2)
+  ];
 
   static ButtonStyle defaultElevatedButtonStyle = ElevatedButton.styleFrom(
       primary: primaryColor,
