@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.plan.it.frontend">
+    package="com.plan.it.blockit">
    <application
-        android:label="frontend"
+        android:label="블록잇"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
