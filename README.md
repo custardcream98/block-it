@@ -2,6 +2,8 @@
 
 SUPER SIMPLE planning app using Flutter and Firebase
 
+[Take a look at demo on WEB APP](https://custardcream98.github.io/block-it/)
+
 # 앱의 주요 구현 기능 (달성 목표)
 
 1. **직관적으로** 계획하기
