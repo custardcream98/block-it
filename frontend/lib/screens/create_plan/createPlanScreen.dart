@@ -80,6 +80,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
         child: Padding(
             padding: EdgeInsets.only(left: 15, right: 15),
             child: TextField(
+              autofocus: true,
               expands: true,
               autocorrect: false,
               maxLines: null,
