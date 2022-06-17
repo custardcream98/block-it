@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Blockit',
+        title: '블록잇',
         theme: AppThemeData.mainThemeData,
         home: const HomeScreen(),
       );

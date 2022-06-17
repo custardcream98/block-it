@@ -35,6 +35,12 @@ class AppThemeData {
           fontWeight: FontWeight.w700,
           fontSize: 20,
           letterSpacing: 1.1,
+          color: mainGrayColor),
+      bodyMedium: TextStyle(
+          fontFamily: "Nanum_Myeongjo",
+          fontWeight: FontWeight.w700,
+          fontSize: 15,
+          letterSpacing: 1.1,
           color: mainGrayColor)
 
       // const TextStyle(

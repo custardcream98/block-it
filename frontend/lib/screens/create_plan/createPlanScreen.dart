@@ -41,6 +41,8 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                       prefs.setStringList('articles', articles);
                     }
 
+                    if (!mounted) return;
+
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

@@ -63,18 +63,120 @@ class _MemosState extends State<Memos> {
   Widget build(BuildContext context) {
     if (_isReloaded) {
       if (memo.isEmpty) {
-        return const SizedBox(
+        return SizedBox(
           height: 100,
           width: double.infinity,
-          child: Center(child: Text('메모가 없습니다')),
+          child: Center(
+              child: Text(
+            '메모가 없습니다',
+            style: Theme.of(context).textTheme.bodyMedium,
+          )),
         );
       }
-      return ListView.builder(
-          itemCount: memo.length,
-          itemBuilder: (context, index) {
-            return Articles(
-                index: index, memo: memo[index], reload: reloadMemo);
-          });
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int index = 0; index < memo.length; index++)
+            Dismissible(
+              key: Key(memo[index]),
+              // confirmDismiss: (direction) async {
+              //   if (direction == DismissDirection.horizontal) {
+              //     return await showCupertinoDialog(
+              //         context: context,
+              //         builder: (context) {
+              //           return CupertinoAlertDialog(
+              //             title: const Text('메모를 지울까요?'),
+              //             actions: [
+              //               CupertinoDialogAction(
+              //                 child: const Text('✅'),
+              //                 onPressed: () => Navigator.pop(context, true),
+              //               ),
+              //               CupertinoDialogAction(
+              //                 child: const Text('❌'),
+              //                 onPressed: () => Navigator.pop(context, false),
+              //               )
+              //             ],
+              //           );
+              //         });
+              //   } else {
+              //     return false;
+              //   }
+              // },
+              background: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: AppThemeData.defaultBoxBorder,
+                      color: Colors.red)),
+              onDismissed: (direction) async {
+                SharedPreferences prefs = await SharedPreferences.getInstance();
+                List<String>? articles = prefs.getStringList('articles');
+                articles!.removeAt(index);
+                prefs.setStringList('articles', articles);
+                await reloadMemo();
+              },
+              child: Articles(index: index, memo: memo[index]),
+            ),
+          // Flexible(
+          //   fit: FlexFit.loose,
+          //   child: ListView.builder(
+          //       controller: _scrollController,
+          //       itemCount: memo.length,
+          //       itemBuilder: (context, index) {
+          //         return Dismissible(
+          //           key: Key(memo[index]),
+          //           confirmDismiss: (direction) async {
+          //             if (direction == DismissDirection.endToStart) {
+          //               return await showCupertinoDialog(
+          //                   context: context,
+          //                   builder: (context) {
+          //                     return CupertinoAlertDialog(
+          //                       title: const Text('메모를 지울까요?'),
+          //                       actions: [
+          //                         CupertinoDialogAction(
+          //                           child: const Text('✅'),
+          //                           onPressed: () =>
+          //                               Navigator.pop(context, true),
+          //                         ),
+          //                         CupertinoDialogAction(
+          //                           child: const Text('❌'),
+          //                           onPressed: () =>
+          //                               Navigator.pop(context, false),
+          //                         )
+          //                       ],
+          //                     );
+          //                   });
+          //             } else {
+          //               return false;
+          //             }
+          //           },
+          //           background: Container(
+          //               decoration: BoxDecoration(
+          //                   borderRadius: AppThemeData.defaultBoxBorder,
+          //                   color: Colors.red)),
+          //           onDismissed: (direction) async {
+          //             SharedPreferences prefs =
+          //                 await SharedPreferences.getInstance();
+          //             List<String>? articles =
+          //                 prefs.getStringList('articles');
+          //             articles!.removeAt(index);
+          //             prefs.setStringList('articles', articles);
+          //             await reloadMemo();
+          //           },
+          //           child: Articles(
+          //               index: index, memo: memo[index], reload: reloadMemo),
+          //         );
+          //       }),
+          // ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+              child: Text(
+                '메모를 지우려면 스와이프',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+          )
+        ],
+      );
     } else {
       return SizedBox(
         height: 100,
@@ -105,41 +207,42 @@ class AppBarActions {
 }
 
 class Articles extends StatelessWidget {
-  Articles(
-      {Key? key, required this.index, required this.memo, required this.reload})
+  Articles({Key? key, required this.index, required this.memo})
       : super(key: key);
 
   int index;
   String memo;
-  Future Function() reload;
+  //Future Function() reload;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(12),
       width: double.infinity,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: AppThemeData.defaultBoxBorder,
           boxShadow: AppThemeData.defaultBoxShadow),
-      child: Row(
-        children: [
-          Expanded(child: Text(memo)),
-          IconButton(
-              onPressed: () async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                List<String>? articles = prefs.getStringList('articles');
-                articles!.removeAt(index);
-                prefs.setStringList('articles', articles);
-                await reload();
-              },
-              icon: Icon(
-                CupertinoIcons.clear,
-                color: AppThemeData.mainGrayColor,
-                size: 15,
-              ))
-        ],
-      ),
+      child: Text(memo),
+
+      // Row(
+      //   children: [
+      //     Expanded(child: Text(memo)),
+      //     IconButton(
+      //         onPressed: () async {
+      //           SharedPreferences prefs = await SharedPreferences.getInstance();
+      //           List<String>? articles = prefs.getStringList('articles');
+      //           articles!.removeAt(index);
+      //           prefs.setStringList('articles', articles);
+      //           await reload();
+      //         },
+      //         icon: Icon(
+      //           CupertinoIcons.clear,
+      //           color: AppThemeData.mainGrayColor,
+      //           size: 15,
+      //         ))
+      //   ],
+      // ),
     );
   }
 }
