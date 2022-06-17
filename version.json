@@ -1,1 +1,6 @@
-{"app_name":"Blockit","version":"1.0.0","build_number":"1","package_name":"Blockit"}
+{
+  "app_name": "블록잇",
+  "version": "1.0.0",
+  "build_number": "1",
+  "package_name": "Blockit"
+}
