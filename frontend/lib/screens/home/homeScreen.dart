@@ -73,109 +73,121 @@ class _MemosState extends State<Memos> {
           )),
         );
       }
-      return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          for (int index = 0; index < memo.length; index++)
-            Dismissible(
-              key: Key(memo[index]),
-              // confirmDismiss: (direction) async {
-              //   if (direction == DismissDirection.horizontal) {
-              //     return await showCupertinoDialog(
-              //         context: context,
-              //         builder: (context) {
-              //           return CupertinoAlertDialog(
-              //             title: const Text('메모를 지울까요?'),
-              //             actions: [
-              //               CupertinoDialogAction(
-              //                 child: const Text('✅'),
-              //                 onPressed: () => Navigator.pop(context, true),
-              //               ),
-              //               CupertinoDialogAction(
-              //                 child: const Text('❌'),
-              //                 onPressed: () => Navigator.pop(context, false),
-              //               )
-              //             ],
-              //           );
-              //         });
-              //   } else {
-              //     return false;
-              //   }
-              // },
-              background: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: AppThemeData.defaultBoxBorder,
-                      color: Colors.red)),
-              onDismissed: (direction) async {
-                SharedPreferences prefs = await SharedPreferences.getInstance();
-                List<String>? articles = prefs.getStringList('articles');
-                articles!.removeAt(index);
-                prefs.setStringList('articles', articles);
-                await reloadMemo();
-              },
-              child: Articles(index: index, memo: memo[index]),
-            ),
-          // Flexible(
-          //   fit: FlexFit.loose,
-          //   child: ListView.builder(
-          //       controller: _scrollController,
-          //       itemCount: memo.length,
-          //       itemBuilder: (context, index) {
-          //         return Dismissible(
-          //           key: Key(memo[index]),
-          //           confirmDismiss: (direction) async {
-          //             if (direction == DismissDirection.endToStart) {
-          //               return await showCupertinoDialog(
-          //                   context: context,
-          //                   builder: (context) {
-          //                     return CupertinoAlertDialog(
-          //                       title: const Text('메모를 지울까요?'),
-          //                       actions: [
-          //                         CupertinoDialogAction(
-          //                           child: const Text('✅'),
-          //                           onPressed: () =>
-          //                               Navigator.pop(context, true),
-          //                         ),
-          //                         CupertinoDialogAction(
-          //                           child: const Text('❌'),
-          //                           onPressed: () =>
-          //                               Navigator.pop(context, false),
-          //                         )
-          //                       ],
-          //                     );
-          //                   });
-          //             } else {
-          //               return false;
-          //             }
-          //           },
-          //           background: Container(
-          //               decoration: BoxDecoration(
-          //                   borderRadius: AppThemeData.defaultBoxBorder,
-          //                   color: Colors.red)),
-          //           onDismissed: (direction) async {
-          //             SharedPreferences prefs =
-          //                 await SharedPreferences.getInstance();
-          //             List<String>? articles =
-          //                 prefs.getStringList('articles');
-          //             articles!.removeAt(index);
-          //             prefs.setStringList('articles', articles);
-          //             await reloadMemo();
-          //           },
-          //           child: Articles(
-          //               index: index, memo: memo[index], reload: reloadMemo),
-          //         );
-          //       }),
-          // ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
-              child: Text(
-                '메모를 지우려면 스와이프',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-          )
-        ],
+      return SingleChildScrollView(
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
+        child: SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height - 65,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              for (int index = 0; index < memo.length; index++)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Dismissible(
+                    key: Key(memo[index]),
+                    // confirmDismiss: (direction) async {
+                    //   if (direction == DismissDirection.horizontal) {
+                    //     return await showCupertinoDialog(
+                    //         context: context,
+                    //         builder: (context) {
+                    //           return CupertinoAlertDialog(
+                    //             title: const Text('메모를 지울까요?'),
+                    //             actions: [
+                    //               CupertinoDialogAction(
+                    //                 child: const Text('✅'),
+                    //                 onPressed: () => Navigator.pop(context, true),
+                    //               ),
+                    //               CupertinoDialogAction(
+                    //                 child: const Text('❌'),
+                    //                 onPressed: () => Navigator.pop(context, false),
+                    //               )
+                    //             ],
+                    //           );
+                    //         });
+                    //   } else {
+                    //     return false;
+                    //   }
+                    // },
+                    background: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: AppThemeData.defaultBoxBorder,
+                            color: Colors.red)),
+                    onDismissed: (direction) async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      List<String>? articles = prefs.getStringList('articles');
+                      articles!.removeAt(index);
+                      prefs.setStringList('articles', articles);
+                      await reloadMemo();
+                    },
+                    child: Articles(index: index, memo: memo[index]),
+                  ),
+                ),
+              // Flexible(
+              //   fit: FlexFit.loose,
+              //   child: ListView.builder(
+              //       controller: _scrollController,
+              //       itemCount: memo.length,
+              //       itemBuilder: (context, index) {
+              //         return Dismissible(
+              //           key: Key(memo[index]),
+              //           confirmDismiss: (direction) async {
+              //             if (direction == DismissDirection.endToStart) {
+              //               return await showCupertinoDialog(
+              //                   context: context,
+              //                   builder: (context) {
+              //                     return CupertinoAlertDialog(
+              //                       title: const Text('메모를 지울까요?'),
+              //                       actions: [
+              //                         CupertinoDialogAction(
+              //                           child: const Text('✅'),
+              //                           onPressed: () =>
+              //                               Navigator.pop(context, true),
+              //                         ),
+              //                         CupertinoDialogAction(
+              //                           child: const Text('❌'),
+              //                           onPressed: () =>
+              //                               Navigator.pop(context, false),
+              //                         )
+              //                       ],
+              //                     );
+              //                   });
+              //             } else {
+              //               return false;
+              //             }
+              //           },
+              //           background: Container(
+              //               decoration: BoxDecoration(
+              //                   borderRadius: AppThemeData.defaultBoxBorder,
+              //                   color: Colors.red)),
+              //           onDismissed: (direction) async {
+              //             SharedPreferences prefs =
+              //                 await SharedPreferences.getInstance();
+              //             List<String>? articles =
+              //                 prefs.getStringList('articles');
+              //             articles!.removeAt(index);
+              //             prefs.setStringList('articles', articles);
+              //             await reloadMemo();
+              //           },
+              //           child: Articles(
+              //               index: index, memo: memo[index], reload: reloadMemo),
+              //         );
+              //       }),
+              // ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                  child: Text(
+                    '메모를 지우려면 스와이프',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
       );
     } else {
       return SizedBox(
