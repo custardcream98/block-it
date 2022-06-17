@@ -19,15 +19,15 @@ class AppThemeData {
   static AppBarTheme appBarTheme = AppBarTheme(
       centerTitle: false,
       backgroundColor: Colors.transparent,
-      toolbarHeight: 70,
+      toolbarHeight: 60,
       titleTextStyle: textTheme.titleLarge,
-      actionsIconTheme: IconThemeData(color: mainGrayColor, size: 30));
+      actionsIconTheme: IconThemeData(color: mainGrayColor, size: 25));
 
   static TextTheme textTheme = TextTheme(
       titleLarge: TextStyle(
           fontFamily: "Nanum_Myeongjo",
           fontWeight: FontWeight.w800,
-          fontSize: 40,
+          fontSize: 35,
           letterSpacing: 0.5,
           color: mainGrayColor),
       titleMedium: TextStyle(
