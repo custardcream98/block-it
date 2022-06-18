@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -20,7 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
-    if (!kIsWeb && !Platform.isAndroid && !Platform.isIOS) {
+    if (MediaQuery.of(context).size.width > 1000) {
       return Scaffold(
           body: Center(
               child: Column(

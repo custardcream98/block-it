@@ -18,12 +18,10 @@ class MemosList extends StatefulWidget {
 class _MemosListState extends State<MemosList> {
   bool _isReloaded = false;
   List<MemosModel> memos = [];
-  // List<Color> colors = [];
 
   Future reloadMemo() async {
     setState(() {
       _isReloaded = false;
-      // memo = [];
     });
 
     final Box<MemosModel> _memoBox =
@@ -35,25 +33,11 @@ class _MemosListState extends State<MemosList> {
       memos = _memos;
       _isReloaded = true;
     });
-
-    // if (_memos.isEmpty) {
-    //   setState(() {
-    //     _isReloaded = true;
-    //   });
-    // } else {
-    //   setState(() {
-    //     memo = articles;
-    //     colors =
-    //         colorsGot!.map((e) => ColorPalette.colors[int.parse(e)]).toList();
-    //     _isReloaded = true;
-    //   });
-    // }
   }
 
   @override
   void initState() {
     reloadMemo();
-
     super.initState();
   }
 
@@ -91,29 +75,6 @@ class _MemosListState extends State<MemosList> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Dismissible(
                     key: Key(_memo.title),
-                    // confirmDismiss: (direction) async {
-                    //   if (direction == DismissDirection.horizontal) {
-                    //     return await showCupertinoDialog(
-                    //         context: context,
-                    //         builder: (context) {
-                    //           return CupertinoAlertDialog(
-                    //             title: const Text('메모를 지울까요?'),
-                    //             actions: [
-                    //               CupertinoDialogAction(
-                    //                 child: const Text('✅'),
-                    //                 onPressed: () => Navigator.pop(context, true),
-                    //               ),
-                    //               CupertinoDialogAction(
-                    //                 child: const Text('❌'),
-                    //                 onPressed: () => Navigator.pop(context, false),
-                    //               )
-                    //             ],
-                    //           );
-                    //         });
-                    //   } else {
-                    //     return false;
-                    //   }
-                    // },
                     background: Container(
                         decoration: BoxDecoration(
                             borderRadius: AppThemeData.defaultBoxBorderRadius,
@@ -122,7 +83,7 @@ class _MemosListState extends State<MemosList> {
                       final Box<MemosModel> _memoBox =
                           Hive.box<MemosModel>(HiveBoxes.memoBox);
 
-                      _memoBox.delete(_memo.generatedTimestamp);
+                      _memoBox.delete(_memo.generatedTimestamp.toString());
 
                       await reloadMemo();
                     },
@@ -132,57 +93,6 @@ class _MemosListState extends State<MemosList> {
                     ),
                   ),
                 ),
-              // Flexible(
-              //   fit: FlexFit.loose,
-              //   child: ListView.builder(
-              //       controller: _scrollController,
-              //       itemCount: memo.length,
-              //       itemBuilder: (context, index) {
-              //         return Dismissible(
-              //           key: Key(memo[index]),
-              //           confirmDismiss: (direction) async {
-              //             if (direction == DismissDirection.endToStart) {
-              //               return await showCupertinoDialog(
-              //                   context: context,
-              //                   builder: (context) {
-              //                     return CupertinoAlertDialog(
-              //                       title: const Text('메모를 지울까요?'),
-              //                       actions: [
-              //                         CupertinoDialogAction(
-              //                           child: const Text('✅'),
-              //                           onPressed: () =>
-              //                               Navigator.pop(context, true),
-              //                         ),
-              //                         CupertinoDialogAction(
-              //                           child: const Text('❌'),
-              //                           onPressed: () =>
-              //                               Navigator.pop(context, false),
-              //                         )
-              //                       ],
-              //                     );
-              //                   });
-              //             } else {
-              //               return false;
-              //             }
-              //           },
-              //           background: Container(
-              //               decoration: BoxDecoration(
-              //                   borderRadius: AppThemeData.defaultBoxBorder,
-              //                   color: Colors.red)),
-              //           onDismissed: (direction) async {
-              //             SharedPreferences prefs =
-              //                 await SharedPreferences.getInstance();
-              //             List<String>? articles =
-              //                 prefs.getStringList('articles');
-              //             articles!.removeAt(index);
-              //             prefs.setStringList('articles', articles);
-              //             await reloadMemo();
-              //           },
-              //           child: Articles(
-              //               index: index, memo: memo[index], reload: reloadMemo),
-              //         );
-              //       }),
-              // ),
               Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
