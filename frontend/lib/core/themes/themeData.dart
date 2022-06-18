@@ -23,28 +23,40 @@ class AppThemeData {
   );
 
   static TextTheme textTheme = TextTheme(
-      titleLarge: TextStyle(
-          fontFamily: "Nanum_Myeongjo",
-          fontWeight: FontWeight.w800,
-          fontSize: 35,
-          letterSpacing: 0.5,
-          color: mainGrayColor),
-      titleMedium: TextStyle(
-          fontFamily: "Nanum_Myeongjo",
-          fontWeight: FontWeight.w700,
-          fontSize: 20,
-          letterSpacing: 1.1,
-          color: mainGrayColor),
-      bodyMedium: TextStyle(
-          fontFamily: "Nanum_Myeongjo",
-          fontWeight: FontWeight.w700,
-          fontSize: 15,
-          letterSpacing: 1.1,
-          color: mainGrayColor)
+    titleLarge: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 35,
+        letterSpacing: 0.5,
+        color: mainGrayColor),
+    titleMedium: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 20,
+        letterSpacing: 1.1,
+        color: mainGrayColor),
+    bodyMedium: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 15,
+        letterSpacing: 1.1,
+        color: mainGrayColor),
+    bodySmall: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 10,
+        letterSpacing: 1.1,
+        color: mainGrayColor),
+    labelSmall: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 9,
+        letterSpacing: 1.1,
+        color: mainGrayColor),
 
-      // const TextStyle(
-      //     fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
-      );
+    // const TextStyle(
+    //     fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
+  );
 
   static BorderRadius defaultBoxBorderRadius = BorderRadius.circular(12);
   static List<BoxShadow> defaultBoxShadow = [
@@ -55,8 +67,8 @@ class AppThemeData {
   ];
 
   static ButtonStyle defaultElevatedButtonStyle = ElevatedButton.styleFrom(
-      // primary: primaryColor,
-      // side: BorderSide(color: primaryColor),
+      primary: primaryColor,
+      side: BorderSide(color: primaryColor),
       shape: RoundedRectangleBorder(borderRadius: defaultBoxBorderRadius),
       padding: const EdgeInsets.all(12));
 
@@ -65,5 +77,6 @@ class AppThemeData {
       onSurface: Colors.transparent,
       onPrimary: Colors.transparent,
       shadowColor: Colors.transparent,
+      side: const BorderSide(color: Colors.transparent),
       padding: const EdgeInsets.all(0.0));
 }

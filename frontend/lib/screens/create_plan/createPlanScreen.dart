@@ -1,13 +1,17 @@
 import 'dart:math';
 
-import 'package:Blockit/screens/home/components/selectColor.dart';
 import 'package:flutter/material.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:Blockit/core/components/components.dart';
+import 'package:Blockit/core/models/memo.dart';
+import 'package:Blockit/core/constants/constants.dart';
 import 'package:Blockit/core/themes/colorPalette.dart';
 import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/core/components/components.dart';
+import 'package:Blockit/core/components/selectColor.dart';
+
 import 'package:Blockit/screens/home/homeScreen.dart';
 
 class CreatePlanScreen extends StatefulWidget {
@@ -19,7 +23,35 @@ class CreatePlanScreen extends StatefulWidget {
 
 class _CreatePlanScreenState extends State<CreatePlanScreen> {
   TextEditingController memoTitleController = TextEditingController();
-  String color = Random().nextInt(ColorPalette.colors.length).toString();
+
+  int colorVal =
+      ColorPalette.colors[Random().nextInt(ColorPalette.colors.length)].value;
+
+  bool _isColorSelected = false;
+
+  Widget _colorSelectIcon() {
+    if (!_isColorSelected) {
+      return Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: AppThemeData.defaultBoxShadow),
+        child: const Image(
+            width: 25,
+            height: 25,
+            fit: BoxFit.fill,
+            image: AssetImage('lib/core/assets/icons/palette.png')),
+      );
+    } else {
+      return Container(
+        width: 25,
+        height: 25,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: AppThemeData.defaultBoxShadow,
+            color: Color(colorVal)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,45 +67,31 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
           actions: [
             ElevatedButton(
                 onPressed: () async {
-                  String? newColor = await ColorSelector.colorSelectDialog(
+                  int? newColorVal = await ColorSelector.colorSelectDialog(
                     context: context,
                   );
-                  if (newColor != null) {
+                  if (newColorVal != null) {
                     setState(() {
-                      color = newColor;
+                      colorVal = newColorVal;
+                      _isColorSelected = true;
                     });
                   }
                 },
                 style: AppThemeData.transparentElevatedButtonStyle,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      boxShadow: AppThemeData.defaultBoxShadow),
-                  child: const Image(
-                      width: 25,
-                      height: 25,
-                      fit: BoxFit.fill,
-                      image: AssetImage('lib/core/assets/icons/palette.png')),
-                )),
+                child: _colorSelectIcon()),
             IconButton(
                 onPressed: () async {
                   if (memoTitleController.text.isNotEmpty) {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    if (prefs.getStringList('articles') == null) {
-                      prefs.setStringList(
-                          'articles', [memoTitleController.text]);
-                      prefs.setStringList('colors', [
-                        Random().nextInt(ColorPalette.colors.length).toString()
-                      ]);
-                    } else {
-                      List<String>? articles = prefs.getStringList('articles');
-                      articles!.add(memoTitleController.text);
-                      List<String>? colors = prefs.getStringList('colors');
-                      colors!.add(color);
-                      prefs.setStringList('articles', articles);
-                      prefs.setStringList('colors', colors);
-                    }
+                    final Box<MemosModel> _memoBox =
+                        await Hive.box<MemosModel>(HiveBoxes.memoBox);
+                    int now = DateTime.now().millisecondsSinceEpoch;
+                    _memoBox.put(
+                        now.toString(),
+                        MemosModel(
+                            colorValue: colorVal,
+                            generatedTimestamp: now,
+                            title: memoTitleController.text,
+                            memoWidgetType: MemoWidgetType.labelLong));
 
                     if (!mounted) return;
 
@@ -109,7 +127,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
         width: double.infinity,
         height: MediaQuery.of(context).size.height - 80,
         child: Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: TextField(
               autofocus: true,
               expands: true,
@@ -141,32 +159,3 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
     super.dispose();
   }
 }
-
-// class GetNewMemo extends StatefulWidget {
-//   const GetNewMemo({Key? key}) : super(key: key);
-
-//   @override
-//   State<GetNewMemo> createState() => _GetNewMemoState();
-// }
-
-// class _GetNewMemoState extends State<GetNewMemo> {
-//   //ScrollController _scrollController = ScrollController();
-
-//   TextEditingController memoTitleController = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       //controller: _scrollController,
-//       child: Column(
-//         children: [],
-//       ),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     memoTitleController.dispose();
-//     super.dispose();
-//   }
-// }

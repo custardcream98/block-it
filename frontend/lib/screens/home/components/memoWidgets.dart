@@ -1,8 +1,12 @@
-import 'package:Blockit/core/themes/colorPalette.dart';
-import 'package:Blockit/core/themes/themeData.dart';
-import 'package:Blockit/screens/home/components/selectColor.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:Blockit/core/constants/constants.dart';
+import 'package:Blockit/core/models/memo.dart';
+import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/core/components/selectColor.dart';
 
 class MemosList extends StatefulWidget {
   MemosList({Key? key}) : super(key: key);
@@ -13,31 +17,37 @@ class MemosList extends StatefulWidget {
 
 class _MemosListState extends State<MemosList> {
   bool _isReloaded = false;
-  List<String> memo = [];
-  List<Color> colors = [];
+  List<MemosModel> memos = [];
+  // List<Color> colors = [];
 
   Future reloadMemo() async {
     setState(() {
       _isReloaded = false;
-      memo = [];
+      // memo = [];
     });
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String>? articles = prefs.getStringList('articles');
-    List<String>? colorsGot = prefs.getStringList('colors');
+    final Box<MemosModel> _memoBox =
+        await Hive.box<MemosModel>(HiveBoxes.memoBox);
 
-    if (articles == null) {
-      setState(() {
-        _isReloaded = true;
-      });
-    } else {
-      setState(() {
-        memo = articles;
-        colors =
-            colorsGot!.map((e) => ColorPalette.colors[int.parse(e)]).toList();
-        _isReloaded = true;
-      });
-    }
+    List<MemosModel> _memos = _memoBox.values.toList();
+
+    setState(() {
+      memos = _memos;
+      _isReloaded = true;
+    });
+
+    // if (_memos.isEmpty) {
+    //   setState(() {
+    //     _isReloaded = true;
+    //   });
+    // } else {
+    //   setState(() {
+    //     memo = articles;
+    //     colors =
+    //         colorsGot!.map((e) => ColorPalette.colors[int.parse(e)]).toList();
+    //     _isReloaded = true;
+    //   });
+    // }
   }
 
   @override
@@ -56,7 +66,7 @@ class _MemosListState extends State<MemosList> {
   @override
   Widget build(BuildContext context) {
     if (_isReloaded) {
-      if (memo.isEmpty) {
+      if (memos.isEmpty) {
         return SizedBox(
           height: 100,
           width: double.infinity,
@@ -76,11 +86,11 @@ class _MemosListState extends State<MemosList> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              for (int index = 0; index < memo.length; index++)
+              for (MemosModel _memo in memos)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Dismissible(
-                    key: Key(memo[index]),
+                    key: Key(_memo.title),
                     // confirmDismiss: (direction) async {
                     //   if (direction == DismissDirection.horizontal) {
                     //     return await showCupertinoDialog(
@@ -109,21 +119,15 @@ class _MemosListState extends State<MemosList> {
                             borderRadius: AppThemeData.defaultBoxBorderRadius,
                             color: Colors.red)),
                     onDismissed: (direction) async {
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      List<String>? articles = prefs.getStringList('articles');
-                      articles!.removeAt(index);
-                      prefs.setStringList('articles', articles);
-                      List<String>? colors = prefs.getStringList('colors');
-                      colors!.removeAt(index);
-                      prefs.setStringList('colors', colors);
+                      final Box<MemosModel> _memoBox =
+                          Hive.box<MemosModel>(HiveBoxes.memoBox);
+
+                      _memoBox.delete(_memo.generatedTimestamp);
 
                       await reloadMemo();
                     },
-                    child: Memo(
-                      index: index,
-                      memo: memo[index],
-                      color: colors[index],
+                    child: MemoWidget(
+                      memo: _memo,
                       reloadMemo: reloadMemo,
                     ),
                   ),
@@ -184,7 +188,7 @@ class _MemosListState extends State<MemosList> {
                   padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                   child: Text(
                     '메모를 지우려면 스와이프',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               )
@@ -206,19 +210,12 @@ class _MemosListState extends State<MemosList> {
   }
 }
 
-class Memo extends StatelessWidget {
-  Memo(
-      {Key? key,
-      required this.index,
-      required this.memo,
-      required this.color,
-      required this.reloadMemo})
+class MemoWidget extends StatelessWidget {
+  MemoWidget({Key? key, required this.memo, required this.reloadMemo})
       : super(key: key);
 
-  int index;
-  String memo;
-  Color color;
-  Future Function() reloadMemo;
+  MemosModel memo;
+  final Future Function() reloadMemo;
 
   @override
   Widget build(BuildContext context) {
@@ -232,12 +229,24 @@ class Memo extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: AppThemeData.defaultBoxBorderRadius,
                 boxShadow: AppThemeData.defaultBoxShadow),
-            child: Row(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(child: Text(memo)),
-                const SizedBox(
-                  width: 32,
-                )
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 2.0),
+                  child: Text(
+                    memo.getgeneratedTimeString(),
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ),
+                Row(
+                  children: [
+                    Expanded(child: Text(memo.title)),
+                    const SizedBox(
+                      width: 32,
+                    )
+                  ],
+                ),
               ],
             )),
         Positioned.fill(
@@ -246,22 +255,22 @@ class Memo extends StatelessWidget {
             const Expanded(child: SizedBox.shrink()),
             GestureDetector(
               onTap: () async {
-                String? newColor = await ColorSelector.colorSelectDialog(
+                int? newColorVal = await ColorSelector.colorSelectDialog(
                   context: context,
                 );
-                if (newColor != null) {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  List<String>? colors = prefs.getStringList('colors');
-                  colors![index] = newColor;
-                  prefs.setStringList('colors', colors);
+                if (newColorVal != null) {
+                  final Box<MemosModel> _memoBox =
+                      Hive.box<MemosModel>(HiveBoxes.memoBox);
+                  memo.colorValue = newColorVal;
+                  _memoBox.put(memo.generatedTimestamp.toString(), memo);
+
                   await reloadMemo();
                 }
               },
               child: Container(
                 width: 20,
                 decoration: BoxDecoration(
-                    color: color,
+                    color: Color(memo.colorValue),
                     borderRadius: const BorderRadiusDirectional.only(
                         topEnd: Radius.circular(12),
                         bottomEnd: Radius.circular(12))),
@@ -271,17 +280,5 @@ class Memo extends StatelessWidget {
         ))
       ],
     );
-
-    //   Row(
-    //     children: [
-    //       Expanded(child: Text(memo)),
-    //       Container(
-    //         height: 10,
-    //         width: 20,
-    //         color: Colors.black,
-    //       )
-    //     ],
-    //   ),
-    // );
   }
 }

@@ -1,9 +1,12 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:Blockit/core/themes/themeData.dart';
 import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/screens/home/components/memos.dart';
+import 'package:Blockit/screens/home/components/memoWidgets.dart';
 import 'package:Blockit/screens/create_plan/createPlanScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -14,15 +17,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   FocusScope.of(context).unfocus();
-  // }
-
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
+    if (!kIsWeb && !Platform.isAndroid && !Platform.isIOS) {
+      return Scaffold(
+          body: Center(
+              child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 2 - 80,
+          ),
+          const Text(
+            '📱',
+            style: TextStyle(fontSize: 50),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          const Text(
+            "모바일 환경에서 만나보세요!",
+            style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                fontFamily: "Nanum_Myeongjo"),
+          ),
+        ],
+      )));
+    }
     return Scaffold(
       backgroundColor: AppThemeData.mainBackgroundWhite,
       appBar: Components.appBar(
