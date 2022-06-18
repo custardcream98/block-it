@@ -1,12 +1,14 @@
 import 'dart:math';
 
-import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/core/themes/colorPalette.dart';
-import 'package:Blockit/screens/home/homeScreen.dart';
+import 'package:Blockit/screens/home/components/selectColor.dart';
 import 'package:flutter/material.dart';
 
-import 'package:Blockit/core/themes/themeData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:Blockit/core/components/components.dart';
+import 'package:Blockit/core/themes/colorPalette.dart';
+import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/screens/home/homeScreen.dart';
 
 class CreatePlanScreen extends StatefulWidget {
   const CreatePlanScreen({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class CreatePlanScreen extends StatefulWidget {
 
 class _CreatePlanScreenState extends State<CreatePlanScreen> {
   TextEditingController memoTitleController = TextEditingController();
+  String color = Random().nextInt(ColorPalette.colors.length).toString();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,28 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                 color: AppThemeData.mainGrayColor,
               )),
           actions: [
+            ElevatedButton(
+                onPressed: () async {
+                  String? newColor = await ColorSelector.colorSelectDialog(
+                    context: context,
+                  );
+                  if (newColor != null) {
+                    setState(() {
+                      color = newColor;
+                    });
+                  }
+                },
+                style: AppThemeData.transparentElevatedButtonStyle,
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      boxShadow: AppThemeData.defaultBoxShadow),
+                  child: const Image(
+                      width: 25,
+                      height: 25,
+                      fit: BoxFit.fill,
+                      image: AssetImage('lib/core/assets/icons/palette.png')),
+                )),
             IconButton(
                 onPressed: () async {
                   if (memoTitleController.text.isNotEmpty) {
@@ -45,9 +70,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                       List<String>? articles = prefs.getStringList('articles');
                       articles!.add(memoTitleController.text);
                       List<String>? colors = prefs.getStringList('colors');
-                      colors!.add(Random()
-                          .nextInt(ColorPalette.colors.length)
-                          .toString());
+                      colors!.add(color);
                       prefs.setStringList('articles', articles);
                       prefs.setStringList('colors', colors);
                     }

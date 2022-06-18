@@ -15,11 +15,12 @@ class AppThemeData {
           ElevatedButtonThemeData(style: defaultElevatedButtonStyle));
 
   static AppBarTheme appBarTheme = AppBarTheme(
-      centerTitle: false,
-      backgroundColor: Colors.transparent,
-      toolbarHeight: 60,
-      titleTextStyle: textTheme.titleLarge,
-      actionsIconTheme: IconThemeData(color: mainGrayColor, size: 25));
+    centerTitle: false,
+    backgroundColor: Colors.transparent,
+    toolbarHeight: 60,
+    titleTextStyle: textTheme.titleLarge,
+    actionsIconTheme: IconThemeData(color: mainGrayColor, size: 25),
+  );
 
   static TextTheme textTheme = TextTheme(
       titleLarge: TextStyle(
@@ -45,7 +46,7 @@ class AppThemeData {
       //     fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
       );
 
-  static BorderRadius defaultBoxBorder = BorderRadius.circular(12);
+  static BorderRadius defaultBoxBorderRadius = BorderRadius.circular(12);
   static List<BoxShadow> defaultBoxShadow = [
     const BoxShadow(
         color: Color.fromARGB(32, 148, 148, 148),
@@ -54,8 +55,15 @@ class AppThemeData {
   ];
 
   static ButtonStyle defaultElevatedButtonStyle = ElevatedButton.styleFrom(
-      primary: primaryColor,
-      side: BorderSide(color: primaryColor),
-      shape: RoundedRectangleBorder(borderRadius: defaultBoxBorder),
+      // primary: primaryColor,
+      // side: BorderSide(color: primaryColor),
+      shape: RoundedRectangleBorder(borderRadius: defaultBoxBorderRadius),
       padding: const EdgeInsets.all(12));
+
+  static ButtonStyle transparentElevatedButtonStyle = ElevatedButton.styleFrom(
+      primary: Colors.transparent,
+      onSurface: Colors.transparent,
+      onPrimary: Colors.transparent,
+      shadowColor: Colors.transparent,
+      padding: const EdgeInsets.all(0.0));
 }
