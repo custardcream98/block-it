@@ -7,8 +7,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:Blockit/core/constants/constants.dart';
 import 'package:Blockit/core/models/memo.dart';
-import 'package:Blockit/core/themes/themeData.dart';
-import 'package:Blockit/core/components/selectColor.dart';
+import 'package:Blockit/core/themes/theme_data.dart';
+import 'package:Blockit/core/components/select_color.dart';
 import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class MemosList extends StatefulWidget {
@@ -135,53 +135,43 @@ class MemoWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            padding: const EdgeInsets.fromLTRB(12, 8, 28, 12),
+            padding:
+                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 8 : 17), 30, 12),
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: AppThemeData.defaultBoxBorderRadius,
                 boxShadow: AppThemeData.defaultBoxShadow),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
+            child: MarkdownBody(
+              styleSheet: AppThemeData.markdownStyleSheet,
+              extensionSet: md.ExtensionSet(
+                  md.ExtensionSet.gitHubWeb.blockSyntaxes,
+                  ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+              data: memo.memo,
+            )),
+        Positioned.fill(
+          top: 2,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(12, 5, 28, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 6.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        memo.title,
-                        overflow: TextOverflow.fade,
-                        style: Theme.of(context).textTheme.labelMedium,
-                      ),
-                      Text(
-                        memo.getgeneratedTimeString(),
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    ],
-                  ),
+                Text(
+                  memo.title,
+                  overflow: TextOverflow.fade,
+                  style: Theme.of(context).textTheme.labelMedium,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: MarkdownBody(
-                      styleSheet: AppThemeData.markdownStyleSheet,
-                      extensionSet: md.ExtensionSet(
-                          md.ExtensionSet.gitHubWeb.blockSyntaxes,
-                          ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-                      data: memo.memo,
-                    )),
-                    const SizedBox(
-                      width: 2,
-                    )
-                  ],
+                Text(
+                  memo.getgeneratedTimeString(),
+                  style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],
-            )),
+            ),
+          ),
+        ),
         Positioned.fill(
             child: Row(
           children: [

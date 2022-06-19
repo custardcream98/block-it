@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/core/themes/theme_data.dart';
 
 class Editor extends StatefulWidget {
   Editor({Key? key, required this.controller, required this.setFocusNode})

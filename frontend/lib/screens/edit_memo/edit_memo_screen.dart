@@ -9,13 +9,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:Blockit/core/models/memo.dart';
 import 'package:Blockit/core/constants/constants.dart';
-import 'package:Blockit/core/constants/infoStrings.dart';
-import 'package:Blockit/core/themes/colorPalette.dart';
-import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/core/constants/info_strings.dart';
+import 'package:Blockit/core/themes/color_palette.dart';
+import 'package:Blockit/core/themes/theme_data.dart';
 import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/core/components/selectColor.dart';
+import 'package:Blockit/core/components/select_color.dart';
 
-import 'package:Blockit/screens/home/homeScreen.dart';
+import 'package:Blockit/screens/home/home_screen.dart';
 import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class CreatePlanScreen extends StatefulWidget {

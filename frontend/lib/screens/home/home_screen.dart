@@ -6,11 +6,11 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:Blockit/core/constants/constants.dart';
-import 'package:Blockit/core/constants/infoStrings.dart';
-import 'package:Blockit/core/themes/themeData.dart';
+import 'package:Blockit/core/constants/info_strings.dart';
+import 'package:Blockit/core/themes/theme_data.dart';
 import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/screens/home/components/memoWidgets.dart';
-import 'package:Blockit/screens/edit_memo/editMemoScreen.dart';
+import 'package:Blockit/screens/home/components/memo_widgets.dart';
+import 'package:Blockit/screens/edit_memo/edit_memo_screen.dart';
 import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class HomeScreen extends StatefulWidget {
