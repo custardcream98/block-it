@@ -1,4 +1,5 @@
 class Assets {
+  static const String boxIconDir = 'lib/core/assets/icons/box.png';
   static const String paletteIconDir = 'lib/core/assets/icons/palette.png';
   static const String markdownIconDir = 'lib/core/assets/icons/markdown.png';
 }

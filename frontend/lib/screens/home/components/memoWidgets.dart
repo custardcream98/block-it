@@ -124,10 +124,10 @@ class _MemosListState extends State<MemosList> {
 }
 
 class MemoWidget extends StatelessWidget {
-  MemoWidget({Key? key, required this.memo, required this.reloadMemo})
+  const MemoWidget({Key? key, required this.memo, required this.reloadMemo})
       : super(key: key);
 
-  MemosModel memo;
+  final MemosModel memo;
   final Future Function() reloadMemo;
 
   @override

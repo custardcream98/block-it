@@ -9,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:Blockit/core/models/memo.dart';
 import 'package:Blockit/core/constants/constants.dart';
+import 'package:Blockit/core/constants/infoStrings.dart';
 import 'package:Blockit/core/themes/colorPalette.dart';
 import 'package:Blockit/core/themes/themeData.dart';
 import 'package:Blockit/core/components/components.dart';
@@ -25,10 +26,7 @@ class CreatePlanScreen extends StatefulWidget {
 }
 
 class _CreatePlanScreenState extends State<CreatePlanScreen> {
-  final TextEditingController _memoController = TextEditingController(
-      // text:
-      //     "# h1 \n## h2 \n### h3 \n#### h4\n`code block`\nbold **bold**\nplane text\nnext line"
-      );
+  final TextEditingController _memoController = TextEditingController();
   final TextEditingController _memoTitleController = TextEditingController();
   late FocusNode _editorFocusNode;
 
@@ -101,6 +99,8 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                   focusedBorder: InputBorder.none),
               keyboardType: TextInputType.text,
               cursorColor: AppThemeData.mainGrayColor,
+              onEditingComplete: () => _editorFocusNode.requestFocus(),
+              onSubmitted: (input) => _editorFocusNode.requestFocus(),
             ),
             actions: [
               // ...EditorActions.actions(
@@ -108,7 +108,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
               //     setFocusToEditor: _setFocusToEditor),
               ElevatedButton(
                   onPressed: () async {
-                    showDialog(
+                    await showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
@@ -119,68 +119,13 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                                   borderRadius:
                                       AppThemeData.defaultBoxBorderRadius),
                               content: MarkdownBody(
+                                listItemCrossAxisAlignment:
+                                    MarkdownListItemCrossAxisAlignment.start,
                                 styleSheet: AppThemeData.markdownStyleSheet,
                                 extensionSet: md.ExtensionSet(
                                     md.ExtensionSet.gitHubWeb.blockSyntaxes,
                                     ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-                                data: '''
-> block it은 마크다운 입력을 지원합니다.
-
---------
-
-### 사용법
-
-마크다운을 이용하면 손가락을 키보드에서 떼지 않고도 글을 예쁘게 쓸 수 있습니다.
-
-몇가지 간단한 심볼만 입력하면 됩니다.
-
-#### 볼드체
-
-```
-**이렇게 쓰면 볼드체가 됩니다.**
-```
-
-**이렇게 쓰면 볼드체가 됩니다.**
-
-#### 이텔릭체
-
-```
-*이렇게 쓰면 이텔릭체가 됩니다.*
-```
-
-*이렇게 쓰면 이텔릭체가 됩니다.*
-
-#### 이텔릭 볼드체
-
-```
-***이렇게 쓰면 이텔릭 볼드체가 됩니다.***
-```
-
-***이렇게 쓰면 이텔릭 볼드체가 됩니다.***
-
-이런 식으로 여러 문법을 중첩해서도 사용할 수 있습니다.
-
-#### 큰 글씨
-
-다섯 가지의 큰 글씨가 있습니다.
-
-```
-# 큰 글씨 1
-## 큰 글씨 2
-### 큰 글씨 3
-#### 큰 글씨 4
-##### 큰 글씨 5
-```
-
-# 큰 글씨 1
-## 큰 글씨 2
-### 큰 글씨 3
-#### 큰 글씨 4
-##### 큰 글씨 5
-
-> 태그를 입력하고 한 칸을 꼭 띄워주세요.
-
-''',
+                                data: InfoString.howToUse,
                               ));
                         });
                   },
@@ -212,8 +157,9 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                               colorValue: colorVal,
                               generatedTimestamp: now,
                               title: _memoTitleController.text,
-                              memo:
-                                  _memoController.text.replaceAll('\n', '\n\n'),
+                              memo: _memoController.text.replaceAll(
+                                  RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
+                                  '\n\n'),
                               memoWidgetType: MemoWidgetType.labelLong));
 
                       if (!mounted) return;

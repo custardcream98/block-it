@@ -135,6 +135,7 @@ class AppThemeData {
       h4Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
       h5: textTheme.bodyMedium,
       h5Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      h6: textTheme.bodySmall,
       strong: const TextStyle(fontWeight: FontWeight.w800),
       blockquote: const TextStyle(fontWeight: FontWeight.w300),
       blockquoteDecoration: BoxDecoration(

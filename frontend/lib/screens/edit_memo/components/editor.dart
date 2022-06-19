@@ -37,68 +37,73 @@ class _EditorState extends State<Editor> {
     return SizedBox(
       width: double.infinity,
       height: double.infinity,
-      child: Stack(
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 16.0),
-                      child: TextField(
-                        focusNode: _editorFocus,
-                        autofocus: true,
-                        expands: true,
-                        autocorrect: false,
-                        maxLines: null,
-                        minLines: null,
-                        controller: widget.controller,
-                        style: Theme.of(context).textTheme.bodySmall,
-                        decoration: InputDecoration(
-                            hintText: '메모',
-                            labelStyle: Theme.of(context).textTheme.bodySmall,
-                            focusColor: AppThemeData.mainGrayColor,
-                            hoverColor: AppThemeData.mainGrayColor,
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppThemeData.mainGrayColor,
-                                    width: 0.8)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: AppThemeData.mainGrayColor,
-                                    width: 0.8))),
-                        keyboardType: TextInputType.multiline,
-                        cursorColor: AppThemeData.mainGrayColor,
+      child: Padding(
+          padding: const EdgeInsets.only(left: 15, right: 15),
+          child: Column(
+            children: [
+              Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          focusNode: _editorFocus,
+                          autofocus: true,
+                          expands: true,
+                          autocorrect: false,
+                          maxLines: null,
+                          minLines: null,
+                          controller: widget.controller,
+                          style: Theme.of(context).textTheme.bodySmall,
+                          decoration: InputDecoration(
+                              hintText: '메모',
+                              labelStyle: Theme.of(context).textTheme.bodySmall,
+                              focusColor: AppThemeData.mainGrayColor,
+                              hoverColor: AppThemeData.mainGrayColor,
+                              enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppThemeData.mainGrayColor,
+                                      width: 0.8)),
+                              focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: AppThemeData.mainGrayColor,
+                                      width: 0.8))),
+                          keyboardType: TextInputType.multiline,
+                          cursorColor: AppThemeData.mainGrayColor,
+                        ),
                       ),
-                    ),
+                      SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(
+                            parent: BouncingScrollPhysics()),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: EditorActions.actions(
+                              controller: widget.controller,
+                              setFocusToEditor: () =>
+                                  _editorFocus.requestFocus()),
+                        ),
+                      )
+                    ],
                   ),
-                  Flexible(
-                      flex: 5,
-                      child: Markdown(
-                        padding: EdgeInsets.zero,
-                        styleSheet: AppThemeData.markdownStyleSheet,
-                        extensionSet: md.ExtensionSet(
-                            md.ExtensionSet.gitHubWeb.blockSyntaxes,
-                            ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-                        data: _liveText.replaceAll('\n', '\n\n'),
-                      ))
-                ],
-              )),
-          Positioned(
-              right: 0,
-              top: 0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: EditorActions.actions(
-                    controller: widget.controller,
-                    setFocusToEditor: () => _editorFocus.requestFocus()),
-              ))
-        ],
-      ),
+                ),
+              ),
+              Flexible(
+                  flex: 5,
+                  child: Markdown(
+                    padding: EdgeInsets.zero,
+                    styleSheet: AppThemeData.markdownStyleSheet,
+                    extensionSet: md.ExtensionSet(
+                        md.ExtensionSet.gitHubWeb.blockSyntaxes,
+                        ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+                    data: _liveText.replaceAll(
+                        RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'), '\n\n'),
+                  ))
+            ],
+          )),
     );
   }
 }
@@ -217,7 +222,7 @@ class EditorSyntax {
     String newValue = "";
 
     if (cursor.textBefore().isEmpty) {
-      newValue = syntax;
+      newValue = "$syntax ";
     } else {
       for (int i = cursor.textBefore().length - 1; i >= 0; i--) {
         if (cursor.textBefore()[i] == '\n') {
@@ -338,5 +343,4 @@ class EditorCursor {
   String textBefore() => text.substring(0, startIndex);
   String textAfter() => text.substring(endIndex);
   String selectedString() => text.substring(startIndex, endIndex);
-  //List<String> textLinebreakList() => text.split('\n');
 }
