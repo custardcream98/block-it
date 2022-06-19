@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:Blockit/core/themes/themeData.dart';
 import 'package:Blockit/core/components/components.dart';
 import 'package:Blockit/screens/home/components/memoWidgets.dart';
-import 'package:Blockit/screens/create_plan/createPlanScreen.dart';
+import 'package:Blockit/screens/edit_memo/editMemoScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,28 +19,23 @@ class _HomeScreenState extends State<HomeScreen> {
     FocusScope.of(context).unfocus();
     if (MediaQuery.of(context).size.width > 1000) {
       return Scaffold(
+          backgroundColor: AppThemeData.mainBackgroundWhite,
           body: Center(
               child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 2 - 80,
-          ),
-          const Text(
-            '📱',
-            style: TextStyle(fontSize: 50),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          const Text(
-            "모바일 환경에서 만나보세요!",
-            style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                fontFamily: "Nanum_Myeongjo"),
-          ),
-        ],
-      )));
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2 - 80,
+              ),
+              const Text(
+                '📱',
+                style: TextStyle(fontSize: 50),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Text("모바일 환경에서 만나보세요!", style: AppThemeData.textTheme.titleLarge),
+            ],
+          )));
     }
     return Scaffold(
       backgroundColor: AppThemeData.mainBackgroundWhite,
@@ -68,20 +63,3 @@ class AppBarActions {
     ];
   }
 }
-
-
-// class AlertBox extends StatelessWidget {
-//   const AlertBox({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 100,
-//       width: double.infinity,
-//       decoration: BoxDecoration(
-//           color: Colors.white,
-//           borderRadius: AppThemeData.defaultBoxBorder,
-//           boxShadow: AppThemeData.defaultBoxShadow),
-//     );
-//   }
-// }

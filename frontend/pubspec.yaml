@@ -23,6 +23,8 @@ dependencies:
   hive: ^2.2.2
   hive_flutter: ^1.1.0
   json_annotation: ^4.5.0
+  flutter_markdown: ^0.6.10+2
+  markdown: ^5.0.0
 
 dev_dependencies:
   hive_generator: ^1.1.0
@@ -48,28 +50,28 @@ flutter:
     - lib/core/assets/
     - lib/core/assets/icons/
   fonts:
-    - family: Noto_Sans_KR
-      fonts:
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.otf
-          weight: 200
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Light.otf
-          weight: 300
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.otf
-          weight: 400
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Medium.otf
-          weight: 500
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Bold.otf
-          weight: 600
-        - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Black.otf
-          weight: 700
-    - family: Dongle
-      fonts:
-        - asset: ./lib/core/assets/fonts/Dongle/Dongle-Light.ttf
-          weight: 300
-        - asset: ./lib/core/assets/fonts/Dongle/Dongle-Regular.ttf
-          weight: 400
-        - asset: ./lib/core/assets/fonts/Dongle/Dongle-Bold.ttf
-          weight: 700
+    # - family: Noto_Sans_KR
+    #   fonts:
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Thin.otf
+    #       weight: 200
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Light.otf
+    #       weight: 300
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Regular.otf
+    #       weight: 400
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Medium.otf
+    #       weight: 500
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Bold.otf
+    #       weight: 600
+    #     - asset: ./lib/core/assets/fonts/Noto_Sans_KR/NotoSansKR-Black.otf
+    #       weight: 700
+    # - family: Dongle
+    #   fonts:
+    #     - asset: ./lib/core/assets/fonts/Dongle/Dongle-Light.ttf
+    #       weight: 300
+    #     - asset: ./lib/core/assets/fonts/Dongle/Dongle-Regular.ttf
+    #       weight: 400
+    #     - asset: ./lib/core/assets/fonts/Dongle/Dongle-Bold.ttf
+    #       weight: 700
     - family: Nanum_Myeongjo
       fonts:
         - asset: ./lib/core/assets/fonts/Nanum_Myeongjo/NanumMyeongjo-Regular.ttf

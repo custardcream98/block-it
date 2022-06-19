@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 // import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:markdown/markdown.dart' as md;
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:Blockit/core/constants/constants.dart';
 import 'package:Blockit/core/models/memo.dart';
 import 'package:Blockit/core/themes/themeData.dart';
 import 'package:Blockit/core/components/selectColor.dart';
+import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class MemosList extends StatefulWidget {
   MemosList({Key? key}) : super(key: key);
@@ -57,7 +60,7 @@ class _MemosListState extends State<MemosList> {
           child: Center(
               child: Text(
             '메모가 없습니다',
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.labelLarge,
           )),
         );
       }
@@ -74,7 +77,7 @@ class _MemosListState extends State<MemosList> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Dismissible(
-                    key: Key(_memo.title),
+                    key: Key(_memo.generatedTimestamp.toString()),
                     background: Container(
                         decoration: BoxDecoration(
                             borderRadius: AppThemeData.defaultBoxBorderRadius,
@@ -98,7 +101,7 @@ class _MemosListState extends State<MemosList> {
                   padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                   child: Text(
                     '메모를 지우려면 스와이프',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.labelLarge,
                   ),
                 ),
               )
@@ -132,7 +135,7 @@ class MemoWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.fromLTRB(12, 8, 28, 12),
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -141,19 +144,39 @@ class MemoWidget extends StatelessWidget {
                 boxShadow: AppThemeData.defaultBoxShadow),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 2.0),
-                  child: Text(
-                    memo.getgeneratedTimeString(),
-                    style: Theme.of(context).textTheme.labelSmall,
+                  padding: const EdgeInsets.only(bottom: 6.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        memo.title,
+                        overflow: TextOverflow.fade,
+                        style: Theme.of(context).textTheme.labelMedium,
+                      ),
+                      Text(
+                        memo.getgeneratedTimeString(),
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
                   ),
                 ),
                 Row(
                   children: [
-                    Expanded(child: Text(memo.title)),
+                    Expanded(
+                        child: MarkdownBody(
+                      styleSheet: AppThemeData.markdownStyleSheet,
+                      extensionSet: md.ExtensionSet(
+                          md.ExtensionSet.gitHubWeb.blockSyntaxes,
+                          ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+                      data: memo.memo,
+                    )),
                     const SizedBox(
-                      width: 32,
+                      width: 2,
                     )
                   ],
                 ),
@@ -178,7 +201,7 @@ class MemoWidget extends StatelessWidget {
                 }
               },
               child: Container(
-                width: 20,
+                width: 23,
                 decoration: BoxDecoration(
                     color: Color(memo.colorValue),
                     borderRadius: const BorderRadiusDirectional.only(

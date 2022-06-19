@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class AppThemeData {
   static Color primaryColor = Colors.red;
   static Color mainGrayColor = const Color.fromARGB(135, 0, 0, 0);
-  static Color mainBackgroundWhite = Color.fromARGB(255, 254, 251, 239);
+  static Color mainBackgroundWhite = const Color.fromARGB(255, 254, 251, 239);
 
   static ThemeData mainThemeData = ThemeData(
       fontFamily: 'Noto_Sans_KR',
@@ -18,45 +21,128 @@ class AppThemeData {
     centerTitle: false,
     backgroundColor: Colors.transparent,
     toolbarHeight: 60,
-    titleTextStyle: textTheme.titleLarge,
+    titleTextStyle: textTheme.headlineSmall,
     actionsIconTheme: IconThemeData(color: mainGrayColor, size: 25),
   );
 
   static TextTheme textTheme = TextTheme(
+    displayLarge: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 64,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
+    displayMedium: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 52,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
+    displaySmall: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w700,
+        fontSize: 44,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
+    headlineLarge: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 40,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
+    headlineMedium: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 36,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
+    headlineSmall: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 32,
+        letterSpacing: 0.0,
+        color: mainGrayColor),
     titleLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
         fontWeight: FontWeight.w800,
-        fontSize: 35,
-        letterSpacing: 0.5,
+        fontSize: 22,
+        letterSpacing: 0.0,
         color: mainGrayColor),
     titleMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
-        fontWeight: FontWeight.w700,
-        fontSize: 20,
-        letterSpacing: 1.1,
+        fontWeight: FontWeight.w800,
+        fontSize: 16,
+        letterSpacing: 0.15,
+        color: mainGrayColor),
+    titleSmall: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 14,
+        letterSpacing: 0.1,
+        color: mainGrayColor),
+    bodyLarge: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w800,
+        fontSize: 24,
+        letterSpacing: 0.15,
         color: mainGrayColor),
     bodyMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
-        fontWeight: FontWeight.w700,
-        fontSize: 15,
-        letterSpacing: 1.1,
+        fontWeight: FontWeight.w800,
+        fontSize: 20,
+        letterSpacing: 0.25,
         color: mainGrayColor),
     bodySmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
-        fontWeight: FontWeight.w700,
-        fontSize: 10,
-        letterSpacing: 1.1,
+        fontWeight: FontWeight.w300,
+        fontSize: 16,
+        letterSpacing: 0.4,
+        color: mainGrayColor),
+    labelLarge: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w300,
+        fontSize: 14,
+        letterSpacing: 0.1,
+        color: mainGrayColor),
+    labelMedium: TextStyle(
+        fontFamily: "Nanum_Myeongjo",
+        fontWeight: FontWeight.w300,
+        fontSize: 12,
+        letterSpacing: 0.5,
         color: mainGrayColor),
     labelSmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w300,
         fontSize: 9,
-        letterSpacing: 1.1,
+        letterSpacing: 0.5,
         color: mainGrayColor),
-
-    // const TextStyle(
-    //     fontWeight: FontWeight.w700, fontSize: 35, letterSpacing: 1.1),
   );
+
+  static MarkdownStyleSheet markdownStyleSheet = MarkdownStyleSheet(
+      p: textTheme.bodySmall,
+      pPadding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
+      code: TextStyle(
+          backgroundColor: Colors.transparent,
+          color: CupertinoColors.systemGrey6.color,
+          fontSize: textTheme.bodySmall!.fontSize! * 0.85),
+      h1: textTheme.headlineLarge,
+      h1Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      h2: textTheme.headlineMedium,
+      h2Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      h3: textTheme.headlineSmall,
+      h3Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      h4: textTheme.bodyLarge,
+      h4Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      h5: textTheme.bodyMedium,
+      h5Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
+      strong: const TextStyle(fontWeight: FontWeight.w800),
+      blockquote: const TextStyle(fontWeight: FontWeight.w300),
+      blockquoteDecoration: BoxDecoration(
+          color: const Color.fromARGB(106, 245, 255, 173),
+          borderRadius: BorderRadius.circular(8.0)),
+      codeblockDecoration: BoxDecoration(
+          color: const Color.fromARGB(106, 0, 0, 0),
+          borderRadius: BorderRadius.circular(8.0)));
 
   static BorderRadius defaultBoxBorderRadius = BorderRadius.circular(12);
   static List<BoxShadow> defaultBoxShadow = [

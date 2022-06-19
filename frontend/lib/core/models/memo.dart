@@ -15,8 +15,8 @@ class MemosModel {
   MemosModel(
       {required this.generatedTimestamp,
       this.memoTag = "태그",
-      required this.title,
-      this.description = "",
+      required this.memo,
+      this.title = "",
       required this.colorValue,
       this.imagePath = "",
       this.placeName = "",
@@ -34,12 +34,12 @@ class MemosModel {
   String memoTag;
 
   @HiveField(2)
-  @JsonKey(name: MemosModelKey.titleKey, required: true)
-  String title;
+  @JsonKey(name: MemosModelKey.memoKey, required: true)
+  String memo;
 
   @HiveField(3)
-  @JsonKey(name: MemosModelKey.descriptionKey, required: true)
-  String description;
+  @JsonKey(name: MemosModelKey.titleKey, required: true)
+  String title;
 
   @HiveField(4)
   @JsonKey(name: MemosModelKey.colorValueKey, required: true)

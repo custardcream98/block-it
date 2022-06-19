@@ -11,6 +11,6 @@ class ColorPalette {
     const Color(0xfffee1e8),
     const Color(0xff97c1a9),
     const Color(0xff55cbcd),
-    Colors.white
+    const Color.fromARGB(255, 116, 115, 115)
   ];
 }

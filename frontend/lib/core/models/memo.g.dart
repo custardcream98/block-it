@@ -19,8 +19,8 @@ class MemosModelAdapter extends TypeAdapter<MemosModel> {
     return MemosModel(
       generatedTimestamp: fields[0] as int,
       memoTag: fields[1] as String,
-      title: fields[2] as String,
-      description: fields[3] as String,
+      memo: fields[2] as String,
+      title: fields[3] as String,
       colorValue: fields[4] as int,
       imagePath: fields[5] as String,
       placeName: fields[6] as String,
@@ -40,9 +40,9 @@ class MemosModelAdapter extends TypeAdapter<MemosModel> {
       ..writeByte(1)
       ..write(obj.memoTag)
       ..writeByte(2)
-      ..write(obj.title)
+      ..write(obj.memo)
       ..writeByte(3)
-      ..write(obj.description)
+      ..write(obj.title)
       ..writeByte(4)
       ..write(obj.colorValue)
       ..writeByte(5)
@@ -80,8 +80,8 @@ MemosModel _$MemosModelFromJson(Map<String, dynamic> json) {
     requiredKeys: const [
       'memo_generated_on',
       'memo_tag',
+      'memo',
       'memo_title',
-      'memo_description',
       'memo_colorValue',
       'memo_image_path',
       'place_name',
@@ -94,8 +94,8 @@ MemosModel _$MemosModelFromJson(Map<String, dynamic> json) {
   return MemosModel(
     generatedTimestamp: json['memo_generated_on'] as int,
     memoTag: json['memo_tag'] as String? ?? "태그",
-    title: json['memo_title'] as String,
-    description: json['memo_description'] as String? ?? "",
+    memo: json['memo'] as String,
+    title: json['memo_title'] as String? ?? "",
     colorValue: json['memo_colorValue'] as int,
     imagePath: json['memo_image_path'] as String? ?? "",
     placeName: json['place_name'] as String? ?? "",
@@ -110,8 +110,8 @@ Map<String, dynamic> _$MemosModelToJson(MemosModel instance) =>
     <String, dynamic>{
       'memo_generated_on': instance.generatedTimestamp,
       'memo_tag': instance.memoTag,
+      'memo': instance.memo,
       'memo_title': instance.title,
-      'memo_description': instance.description,
       'memo_colorValue': instance.colorValue,
       'memo_image_path': instance.imagePath,
       'place_name': instance.placeName,
