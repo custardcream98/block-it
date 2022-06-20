@@ -169,19 +169,22 @@ class MemoWidget extends StatelessWidget {
       children: [
         Container(
             padding:
-                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 8 : 22), 30, 12),
+                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 12 : 22), 30, 12),
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: AppThemeData.defaultBoxBorderRadius,
                 boxShadow: AppThemeData.defaultBoxShadow),
-            child: MarkdownBody(
-              styleSheet: AppThemeData.markdownStyleSheet,
-              extensionSet: md.ExtensionSet(
-                  md.ExtensionSet.gitHubWeb.blockSyntaxes,
-                  ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-              data: memo.memo,
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: MarkdownBody(
+                styleSheet: AppThemeData.markdownStyleSheet,
+                extensionSet: md.ExtensionSet(
+                    md.ExtensionSet.gitHubWeb.blockSyntaxes,
+                    ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+                data: memo.memo,
+              ),
             )),
         Positioned.fill(
           top: 0,

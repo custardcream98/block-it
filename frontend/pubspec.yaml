@@ -73,6 +73,9 @@ flutter:
     #       weight: 400
     #     - asset: ./lib/core/assets/fonts/Dongle/Dongle-Bold.ttf
     #       weight: 700
+    - family: Noto_Color_Emoji
+      fonts:
+        - asset: ./lib/core/assets/fonts/Noto_Color_Emoji/NotoColorEmoji.ttf
     - family: Nanum_Myeongjo
       fonts:
         - asset: ./lib/core/assets/fonts/Nanum_Myeongjo/NanumMyeongjo-Regular.ttf

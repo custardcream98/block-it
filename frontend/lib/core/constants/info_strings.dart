@@ -2,14 +2,14 @@ import 'package:Blockit/core/themes/theme_data.dart';
 import 'package:flutter/material.dart';
 
 class InfoString {
-  static const String introduce = '''
+  static String introduce = '''
 ##### Less, but Better
 
-#### block it
+#### 📦 block it
 
 INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 ToDo앱을 다운받았더니,
 
-온갖 기능에 머리가 아파 만들게 된 앱입니다.
+온갖 기능에 머리가 아파 만들게 된 앱입니다 😂
 
 단순하지만 이쁜걸 추구합니다.
 

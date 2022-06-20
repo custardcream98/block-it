@@ -26,8 +26,9 @@ class AppThemeData {
   );
 
   static const List<String> _fontFamilyFallback = [
+    "Noto_Color_Emoji",
     "Apple Color Emoji",
-    "Segoe UI Emoji",
+    "Noto Emoji",
     "Segoe UI Symbol"
   ];
 
