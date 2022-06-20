@@ -9,10 +9,12 @@ import 'package:Blockit/core/constants/constants.dart';
 import 'package:Blockit/core/models/memo.dart';
 import 'package:Blockit/core/themes/theme_data.dart';
 import 'package:Blockit/core/components/select_color.dart';
+
+import 'package:Blockit/screens/edit_memo/edit_memo_screen.dart';
 import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class MemosList extends StatefulWidget {
-  MemosList({Key? key}) : super(key: key);
+  const MemosList({Key? key}) : super(key: key);
 
   @override
   State<MemosList> createState() => _MemosListState();
@@ -27,13 +29,12 @@ class _MemosListState extends State<MemosList> {
       _isReloaded = false;
     });
 
-    final Box<MemosModel> _memoBox =
-        await Hive.box<MemosModel>(HiveBoxes.memoBox);
+    final Box<MemosModel> memoBox = Hive.box<MemosModel>(HiveBoxes.memoBox);
 
-    List<MemosModel> _memos = _memoBox.values.toList();
+    List<MemosModel> memos = memoBox.values.toList();
 
     setState(() {
-      memos = _memos;
+      this.memos = memos;
       _isReloaded = true;
     });
   }
@@ -73,25 +74,57 @@ class _MemosListState extends State<MemosList> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              for (MemosModel _memo in memos)
+              for (MemosModel memo in memos)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: Dismissible(
-                    key: Key(_memo.generatedTimestamp.toString()),
+                    key: Key(memo.generatedTimestamp.toString()),
+                    //crossAxisEndOffset: 200,
+                    secondaryBackground: Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      alignment: Alignment.centerRight,
+                      decoration: BoxDecoration(
+                          borderRadius: AppThemeData.defaultBoxBorderRadius,
+                          color: Colors.red),
+                      child: Icon(
+                        Icons.delete_rounded,
+                        size: 20,
+                        color: AppThemeData.mainGrayColor,
+                      ),
+                    ),
                     background: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: AppThemeData.defaultBoxBorderRadius,
-                            color: Colors.red)),
+                      padding: const EdgeInsets.only(left: 10),
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                          borderRadius: AppThemeData.defaultBoxBorderRadius,
+                          color: Colors.green),
+                      child: Icon(
+                        Icons.edit,
+                        size: 20,
+                        color: AppThemeData.mainGrayColor,
+                      ),
+                    ),
                     onDismissed: (direction) async {
-                      final Box<MemosModel> _memoBox =
+                      final Box<MemosModel> memoBox =
                           Hive.box<MemosModel>(HiveBoxes.memoBox);
-
-                      _memoBox.delete(_memo.generatedTimestamp.toString());
+                      MemosModel memosModel;
+                      if (direction == DismissDirection.startToEnd) {
+                        memosModel =
+                            memoBox.get(memo.generatedTimestamp.toString())!;
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreatePlanScreen(
+                                  isEdit: true, memo: memosModel),
+                            ));
+                        return;
+                      }
+                      memoBox.delete(memo.generatedTimestamp.toString());
 
                       await reloadMemo();
                     },
                     child: MemoWidget(
-                      memo: _memo,
+                      memo: memo,
                       reloadMemo: reloadMemo,
                     ),
                   ),
@@ -100,8 +133,8 @@ class _MemosListState extends State<MemosList> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
                   child: Text(
-                    '메모를 지우려면 스와이프',
-                    style: Theme.of(context).textTheme.labelLarge,
+                    '메모를 지우려면 ⬅️ 수정하려면 ➡️',
+                    style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ),
               )
@@ -136,7 +169,7 @@ class MemoWidget extends StatelessWidget {
       children: [
         Container(
             padding:
-                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 8 : 17), 30, 12),
+                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 8 : 22), 30, 12),
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -151,23 +184,31 @@ class MemoWidget extends StatelessWidget {
               data: memo.memo,
             )),
         Positioned.fill(
-          top: 2,
+          top: 0,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(12, 5, 28, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text(
-                  memo.title,
-                  overflow: TextOverflow.fade,
-                  style: Theme.of(context).textTheme.labelMedium,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      memo.title,
+                      overflow: TextOverflow.fade,
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                    Text(
+                      memo.getgeneratedTimeString(),
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  ],
                 ),
-                Text(
-                  memo.getgeneratedTimeString(),
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
+                const Expanded(child: SizedBox.shrink())
               ],
             ),
           ),
@@ -182,10 +223,10 @@ class MemoWidget extends StatelessWidget {
                   context: context,
                 );
                 if (newColorVal != null) {
-                  final Box<MemosModel> _memoBox =
+                  final Box<MemosModel> memoBox =
                       Hive.box<MemosModel>(HiveBoxes.memoBox);
                   memo.colorValue = newColorVal;
-                  _memoBox.put(memo.generatedTimestamp.toString(), memo);
+                  memoBox.put(memo.generatedTimestamp.toString(), memo);
 
                   await reloadMemo();
                 }

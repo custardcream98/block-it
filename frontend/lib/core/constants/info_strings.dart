@@ -1,3 +1,6 @@
+import 'package:Blockit/core/themes/theme_data.dart';
+import 'package:flutter/material.dart';
+
 class InfoString {
   static const String introduce = '''
 ##### Less, but Better
@@ -33,11 +36,22 @@ INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 To
 * **22/6/18** 메모 태그 형식의 디자인 추가 및 컬러선택기 추가, Web앱 아이콘 추가, Github Pages 이용해 deploy
 * **22/6/17** 레포지토리 생성 및 기본 프레임 제작
 
-Copyrightⓒ2022 by custardcream98.
-
-All Page content is property of custardcream98
-
 ''';
+
+  static List<Widget> copyright = [
+    const SizedBox(
+      height: 24.0,
+    ),
+    Text(
+      "Copyrightⓒ2022 by custardcream98.",
+      style: AppThemeData.textTheme.labelSmall,
+    ),
+    Text(
+      "All Page content is property of custardcream98",
+      style: AppThemeData.textTheme.labelSmall,
+    )
+  ];
+
   static const String howToUse = '''
 > block it은 마크다운 입력을 지원합니다.
 

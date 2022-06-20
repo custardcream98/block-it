@@ -6,11 +6,11 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:Blockit/core/themes/theme_data.dart';
 
 class Editor extends StatefulWidget {
-  Editor({Key? key, required this.controller, required this.setFocusNode})
+  const Editor({Key? key, required this.controller, required this.setFocusNode})
       : super(key: key);
 
-  TextEditingController controller;
-  Function(FocusNode) setFocusNode;
+  final TextEditingController controller;
+  final Function(FocusNode) setFocusNode;
 
   @override
   State<Editor> createState() => _EditorState();

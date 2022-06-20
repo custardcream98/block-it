@@ -60,17 +60,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   AppThemeData.defaultBoxBorderRadius),
-                          content: MarkdownBody(
-                            styleSheet: AppThemeData.markdownStyleSheet,
-                            listItemCrossAxisAlignment:
-                                MarkdownListItemCrossAxisAlignment.start,
-                            extensionSet: md.ExtensionSet(
-                                md.ExtensionSet.gitHubWeb.blockSyntaxes,
-                                ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-                            onTapLink: (text, url, title) {
-                              launchUrl(Uri.parse(url!));
-                            },
-                            data: InfoString.introduce,
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              MarkdownBody(
+                                styleSheet: AppThemeData.markdownStyleSheet,
+                                listItemCrossAxisAlignment:
+                                    MarkdownListItemCrossAxisAlignment.start,
+                                extensionSet: md.ExtensionSet(
+                                    md.ExtensionSet.gitHubWeb.blockSyntaxes,
+                                    ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+                                onTapLink: (text, url, title) {
+                                  launchUrl(Uri.parse(url!));
+                                },
+                                data: InfoString.introduce,
+                              ),
+                              ...InfoString.copyright
+                            ],
                           ));
                     });
               },
@@ -84,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(100),
                       boxShadow: AppThemeData.defaultBoxShadow,
                     ),
-                    padding: EdgeInsets.only(right: 4),
+                    padding: const EdgeInsets.only(right: 4),
                     child: const Image(
                         width: 25,
                         height: 25,
@@ -97,13 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ))),
-      body: Padding(
-          padding: const EdgeInsets.only(left: 12, right: 12),
-          child: Column(
-            children: [
-              Expanded(child: MemosList()),
-            ],
-          )),
+      body: const Padding(
+          padding: EdgeInsets.only(left: 12, right: 12), child: MemosList()),
     );
   }
 }

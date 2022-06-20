@@ -19,7 +19,11 @@ import 'package:Blockit/screens/home/home_screen.dart';
 import 'package:Blockit/screens/edit_memo/components/editor.dart';
 
 class CreatePlanScreen extends StatefulWidget {
-  const CreatePlanScreen({Key? key}) : super(key: key);
+  const CreatePlanScreen({Key? key, this.isEdit = false, this.memo})
+      : super(key: key);
+
+  final bool isEdit;
+  final MemosModel? memo;
 
   @override
   State<CreatePlanScreen> createState() => _CreatePlanScreenState();
@@ -29,8 +33,9 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
   final TextEditingController _memoController = TextEditingController();
   final TextEditingController _memoTitleController = TextEditingController();
   late FocusNode _editorFocusNode;
+  late MemosModel _memoForEdit;
 
-  int colorVal =
+  int _colorVal =
       ColorPalette.colors[Random().nextInt(ColorPalette.colors.length)].value;
 
   bool _isColorSelected = false;
@@ -45,7 +50,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),
             boxShadow: AppThemeData.defaultBoxShadow,
-            color: Color(colorVal)),
+            color: Color(_colorVal)),
       );
     }
   }
@@ -67,9 +72,28 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
     _editorFocusNode = editorFocusNode;
   }
 
-  void _setFocusToEditor() {
-    _editorFocusNode.requestFocus();
+  void _findMemo(bool isEdit) {
+    if (isEdit) {
+      setState(() {
+        _memoForEdit = widget.memo!;
+
+        _memoTitleController.value = TextEditingValue(text: _memoForEdit.title);
+        _memoController.value = TextEditingValue(text: _memoForEdit.memo);
+        _isColorSelected = true;
+        _colorVal = _memoForEdit.colorValue;
+      });
+    }
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _findMemo(widget.isEdit);
+  }
+
+  // void _setFocusToEditor() {
+  //   _editorFocusNode.requestFocus();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +102,11 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
         backgroundColor: AppThemeData.mainBackgroundWhite,
         appBar: Components.appBar(
             leading: IconButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    )),
                 icon: Icon(
                   Icons.arrow_back_ios,
                   color: AppThemeData.mainGrayColor,
@@ -112,7 +140,6 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                              //contentPadding: EdgeInsets.all(20),
                               scrollable: true,
                               backgroundColor: AppThemeData.mainBackgroundWhite,
                               shape: RoundedRectangleBorder(
@@ -138,7 +165,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                     );
                     if (newColorVal != null) {
                       setState(() {
-                        colorVal = newColorVal;
+                        _colorVal = newColorVal;
                         _isColorSelected = true;
                       });
                     }
@@ -148,19 +175,33 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
               IconButton(
                   onPressed: () async {
                     if (_memoController.text.isNotEmpty) {
-                      final Box<MemosModel> _memoBox =
-                          await Hive.box<MemosModel>(HiveBoxes.memoBox);
-                      int now = DateTime.now().millisecondsSinceEpoch;
-                      _memoBox.put(
-                          now.toString(),
-                          MemosModel(
-                              colorValue: colorVal,
-                              generatedTimestamp: now,
-                              title: _memoTitleController.text,
-                              memo: _memoController.text.replaceAll(
-                                  RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
-                                  '\n\n'),
-                              memoWidgetType: MemoWidgetType.labelLong));
+                      final Box<MemosModel> memoBox =
+                          Hive.box<MemosModel>(HiveBoxes.memoBox);
+                      if (widget.isEdit) {
+                        memoBox.put(
+                            widget.memo!.generatedTimestamp.toString(),
+                            MemosModel(
+                                colorValue: _colorVal,
+                                generatedTimestamp:
+                                    widget.memo!.generatedTimestamp,
+                                title: _memoTitleController.text,
+                                memo: _memoController.text.replaceAll(
+                                    RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
+                                    '\n\n'),
+                                memoWidgetType: MemoWidgetType.labelLong));
+                      } else {
+                        int now = DateTime.now().millisecondsSinceEpoch;
+                        memoBox.put(
+                            now.toString(),
+                            MemosModel(
+                                colorValue: _colorVal,
+                                generatedTimestamp: now,
+                                title: _memoTitleController.text,
+                                memo: _memoController.text.replaceAll(
+                                    RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
+                                    '\n\n'),
+                                memoWidgetType: MemoWidgetType.labelLong));
+                      }
 
                       if (!mounted) return;
 
