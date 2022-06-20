@@ -5,11 +5,11 @@ class InfoString {
   static const String introduce = '''
 ##### Less, but Better
 
-#### :package: 블록잇
+#### block it
 
 INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 ToDo앱을 다운받았더니,
 
-온갖 기능에 머리가 아파 만들게 된 앱입니다 :joy:
+온갖 기능에 머리가 아파 만들게 된 앱입니다.
 
 단순하지만 이쁜걸 추구합니다.
 
@@ -31,10 +31,16 @@ INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 To
 
 #### Changelog
 
-* **22/6/20** Markdown 추가 및 편집기 개발
+* **22/6/20** Markdown 추가 및 편집기 개발, 수정 기능 추가
 * **22/6/19** Flutter Hive 이용해 local IndexDB 생성 및 MemosModel 설계
 * **22/6/18** 메모 태그 형식의 디자인 추가 및 컬러선택기 추가, Web앱 아이콘 추가, Github Pages 이용해 deploy
 * **22/6/17** 레포지토리 생성 및 기본 프레임 제작
+
+#### ToDo
+
+* MD 기능 추가
+* 이모지 문제 해결
+* 줄간격 
 
 ''';
 

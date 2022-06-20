@@ -25,93 +25,115 @@ class AppThemeData {
     actionsIconTheme: IconThemeData(color: mainGrayColor, size: 25),
   );
 
+  static const List<String> _fontFamilyFallback = [
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol"
+  ];
+
   static TextTheme textTheme = TextTheme(
     displayLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w700,
         fontSize: 64,
         letterSpacing: 0.0,
         color: mainGrayColor),
     displayMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w700,
         fontSize: 52,
         letterSpacing: 0.0,
         color: mainGrayColor),
     displaySmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w700,
         fontSize: 44,
         letterSpacing: 0.0,
         color: mainGrayColor),
     headlineLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 40,
         letterSpacing: 0.0,
         color: mainGrayColor),
     headlineMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 36,
         letterSpacing: 0.0,
         color: mainGrayColor),
     headlineSmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 32,
         letterSpacing: 0.0,
         color: mainGrayColor),
     titleLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 22,
         letterSpacing: 0.0,
         color: mainGrayColor),
     titleMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 16,
         letterSpacing: 0.15,
         color: mainGrayColor),
     titleSmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 14,
         letterSpacing: 0.1,
         color: mainGrayColor),
     bodyLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 24,
         letterSpacing: 0.15,
         color: mainGrayColor),
     bodyMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w800,
         fontSize: 20,
         letterSpacing: 0.25,
         color: mainGrayColor),
     bodySmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w300,
         fontSize: 16,
         letterSpacing: 0.4,
+        height: 1.5,
         color: mainGrayColor),
     labelLarge: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w300,
         fontSize: 14,
         letterSpacing: 0.1,
         color: mainGrayColor),
     labelMedium: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w300,
         fontSize: 12,
         letterSpacing: 0.5,
         color: mainGrayColor),
     labelSmall: TextStyle(
         fontFamily: "Nanum_Myeongjo",
+        fontFamilyFallback: _fontFamilyFallback,
         fontWeight: FontWeight.w300,
         fontSize: 9,
         letterSpacing: 0.5,
