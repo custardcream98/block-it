@@ -24,26 +24,26 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     FocusScope.of(context).unfocus();
-    if (MediaQuery.of(context).size.width > 1000) {
-      return Scaffold(
-          backgroundColor: AppThemeData.mainBackgroundWhite,
-          body: Center(
-              child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 2 - 80,
-              ),
-              const Text(
-                '📱',
-                style: TextStyle(fontSize: 50),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Text("모바일 환경에서 만나보세요!", style: AppThemeData.textTheme.titleLarge),
-            ],
-          )));
-    }
+    // if (MediaQuery.of(context).size.width > 1000) {
+    //   return Scaffold(
+    //       backgroundColor: AppThemeData.mainBackgroundWhite,
+    //       body: Center(
+    //           child: Column(
+    //         children: [
+    //           SizedBox(
+    //             height: MediaQuery.of(context).size.height / 2 - 80,
+    //           ),
+    //           const Text(
+    //             '📱',
+    //             style: TextStyle(fontSize: 50),
+    //           ),
+    //           const SizedBox(
+    //             height: 30,
+    //           ),
+    //           Text("모바일 환경에서 만나보세요!", style: AppThemeData.textTheme.titleLarge),
+    //         ],
+    //       )));
+    // }
     return Scaffold(
       backgroundColor: AppThemeData.mainBackgroundWhite,
       appBar: Components.appBar(

@@ -70,7 +70,7 @@ class _MemosListState extends State<MemosList> {
             parent: AlwaysScrollableScrollPhysics()),
         child: SizedBox(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height - 65,
+          // height: MediaQuery.of(context).size.height - 65,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -131,7 +131,7 @@ class _MemosListState extends State<MemosList> {
                 ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 12.0, bottom: 12.0),
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 20.0),
                   child: Text(
                     '메모를 지우려면 ⬅️ 수정하려면 ➡️',
                     style: Theme.of(context).textTheme.labelMedium,

@@ -186,7 +186,8 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                                     widget.memo!.generatedTimestamp,
                                 title: _memoTitleController.text,
                                 memo: _memoController.text.replaceAll(
-                                    RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
+                                    RegExp(
+                                        r'(\n{1,2})(?!(>|([0-9]+\.\s)|(\*\s)))'),
                                     '\n\n'),
                                 memoWidgetType: MemoWidgetType.labelLong));
                       } else {
@@ -198,7 +199,8 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                                 generatedTimestamp: now,
                                 title: _memoTitleController.text,
                                 memo: _memoController.text.replaceAll(
-                                    RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'),
+                                    RegExp(
+                                        r'(\n{1})(?!(>|([0-9]+\.\s)|(\*\s)))'),
                                     '\n\n'),
                                 memoWidgetType: MemoWidgetType.labelLong));
                       }

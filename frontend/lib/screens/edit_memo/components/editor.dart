@@ -100,7 +100,7 @@ class _EditorState extends State<Editor> {
                         md.ExtensionSet.gitHubWeb.blockSyntaxes,
                         ModeifiedMarkDownSyntaxes.inlineSyntaxes),
                     data: _liveText.replaceAll(
-                        RegExp(r'(\n)(?!(>|([0-9]+\.\s)|(\*\s)))'), '\n\n'),
+                        RegExp(r'(\n{1})(?!(>|([0-9]+\.\s)|(\*\s)))'), '\n\n'),
                   ))
             ],
           )),
