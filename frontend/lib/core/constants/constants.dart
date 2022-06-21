@@ -31,3 +31,15 @@ class MemoWidgetType {
   static const int squareMidium = 3;
   static const int squareSmall = 4;
 }
+
+class MarkdownSyntax {
+  static const String boldSyntax = '**';
+  static const String boldSyntaxHint = '볼드체';
+  static const String italicSyntax = '*';
+  static const String italicSyntaxHint = '이텔릭체';
+  static const String quoteSyntax = '>';
+  static const String unOrderedSyntax = '-';
+  static const String headerSyntax = '#';
+  static const String codeSyntax = '`';
+  static List<String> leadings = [];
+}

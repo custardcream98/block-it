@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:Blockit/core/themes/color_palette.dart';
-import 'package:Blockit/core/themes/theme_data.dart';
+import '/core/themes/color_palette.dart';
+import '/core/themes/theme_data.dart';
 
 class ColorSelector {
   static Future colorSelectDialog({

@@ -5,13 +5,13 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:Blockit/core/constants/constants.dart';
-import 'package:Blockit/core/constants/info_strings.dart';
-import 'package:Blockit/core/themes/theme_data.dart';
-import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/screens/home/components/memo_widgets.dart';
-import 'package:Blockit/screens/edit_memo/edit_memo_screen.dart';
-import 'package:Blockit/screens/edit_memo/components/editor.dart';
+import '/core/constants/constants.dart';
+import '/core/constants/info_strings.dart';
+import '/core/themes/theme_data.dart';
+import '/core/components/components.dart';
+import '/screens/home/components/memo_widgets.dart';
+import '/screens/edit_memo/edit_memo_screen.dart';
+import '/screens/edit_memo/components/editor.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

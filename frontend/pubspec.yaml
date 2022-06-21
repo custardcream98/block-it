@@ -1,4 +1,4 @@
-name: Blockit
+name: block_it
 description: Super Simple Planning Apps
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
@@ -73,6 +73,12 @@ flutter:
     #       weight: 400
     #     - asset: ./lib/core/assets/fonts/Dongle/Dongle-Bold.ttf
     #       weight: 700
+    - family: D2Coding
+      fonts:
+        - asset: ./lib/core/assets/fonts/D2Coding/D2Coding.ttf
+          weight: 400
+        - asset: ./lib/core/assets/fonts/D2Coding/D2CodingBold.ttf
+          weight: 700
     - family: Noto_Color_Emoji
       fonts:
         - asset: ./lib/core/assets/fonts/Noto_Color_Emoji/NotoColorEmoji.ttf

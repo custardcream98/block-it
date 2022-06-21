@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -145,9 +144,13 @@ class AppThemeData {
       p: textTheme.bodySmall,
       pPadding: const EdgeInsets.fromLTRB(0, 2, 0, 2),
       code: TextStyle(
+          fontFamily: 'D2Coding',
+          fontWeight: FontWeight.w700,
           backgroundColor: Colors.transparent,
-          color: CupertinoColors.systemGrey6.color,
-          fontSize: textTheme.bodySmall!.fontSize! * 0.85),
+          color: Colors.white,
+          letterSpacing: 1.2,
+          wordSpacing: 1.0,
+          fontSize: textTheme.bodySmall!.fontSize! * 0.9),
       h1: textTheme.headlineLarge,
       h1Padding: const EdgeInsets.fromLTRB(0, 9, 0, 2),
       h2: textTheme.headlineMedium,
@@ -165,8 +168,10 @@ class AppThemeData {
           color: const Color.fromARGB(106, 245, 255, 173),
           borderRadius: BorderRadius.circular(8.0)),
       codeblockDecoration: BoxDecoration(
-          color: const Color.fromARGB(106, 0, 0, 0),
-          borderRadius: BorderRadius.circular(8.0)));
+          color: const Color.fromARGB(255, 184, 184, 184),
+          borderRadius: BorderRadius.circular(8.0)),
+      codeblockPadding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+      codeblockAlign: WrapAlignment.start);
 
   static BorderRadius defaultBoxBorderRadius = BorderRadius.circular(12);
   static List<BoxShadow> defaultBoxShadow = [

@@ -1,7 +1,7 @@
 # Principle
 
-- **CODE LIKE A PRO**: CLAP
-- **LESS, BUT BETTER**: LeTTER
+- **CODE LIKE A PRO**
+- **LESS, BUT BETTER**
 
 ## Code Like a PRO
 
@@ -42,21 +42,25 @@
 - 안내 문구는 구어체로
 - 아이콘의 사용은 나쁘지 않지만 너무 잦은 사용은 자제
 
-## Flow
-
-### App Bar
-
-### Main Page
-
-#### 꼭 들어가야 하는 요소
-
-- 할 일 목록
-  - 무한 리스트로 제시
-- App Bar, Tab Bar는 있음
-  - App Bar에 새 일정 추가 버튼
-
-## 주요 명령어 모음
+# 주요 명령어 모음
 
 - `flutter build web --web-renderer canvaskit`
   - 모바일에서도 `canvaskit`으로 렌더링하도록 `auto`가 아닌 이 명령어를 사용해 빌드
   - 모바일에서 `html`로 렌더링하면 이모지 폰트 관련 문제가 발생했음
+
+# ToDo
+
+- [ ] Markdown 기능 추가
+  - Highlighter, checkbox, indent, ...
+- [ ] 사진 저장 기능 추가
+- [ ] 줄간격 조절
+- [ ] 자동저장으로 저장 방식 변경 (혹은 옵션 추가)
+  - Buffer 이용하기 (자동저장시 아이콘 출력)
+- [ ] 단축키 추가
+- [ ] Tab 입력시 indent 대신 다음 element로 focus 이동하는 문제 해결
+- [ ] code box 문제 해결
+- [ ] 이전버전, 최신버전 비교 메커니즘 추가
+- [ ] 줄글 / 메모 구분지어 표시하고, 탭으로 나누기
+- [ ] 메모 작성 페이지에서 하단 padding 늘리기
+- [ ] 메모 작성시 미리보기 부분 자동 스크롤 기능 추가
+- [ ] 일정 이상 사이즈가 되면 폰트 크기 조절해야 함

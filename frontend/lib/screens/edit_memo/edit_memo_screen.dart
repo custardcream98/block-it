@@ -7,16 +7,17 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:Blockit/core/models/memo.dart';
-import 'package:Blockit/core/constants/constants.dart';
-import 'package:Blockit/core/constants/info_strings.dart';
-import 'package:Blockit/core/themes/color_palette.dart';
-import 'package:Blockit/core/themes/theme_data.dart';
-import 'package:Blockit/core/components/components.dart';
-import 'package:Blockit/core/components/select_color.dart';
+//import '/core/markdown/markdown_custom.dart.backup';
+import '/core/models/memo.dart';
+import '/core/constants/constants.dart';
+import '/core/constants/info_strings.dart';
+import '/core/themes/color_palette.dart';
+import '/core/themes/theme_data.dart';
+import '/core/components/components.dart';
+import '/core/components/select_color.dart';
 
-import 'package:Blockit/screens/home/home_screen.dart';
-import 'package:Blockit/screens/edit_memo/components/editor.dart';
+import '/screens/home/home_screen.dart';
+import '/screens/edit_memo/components/editor.dart';
 
 class CreatePlanScreen extends StatefulWidget {
   const CreatePlanScreen({Key? key, this.isEdit = false, this.memo})
@@ -185,10 +186,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                                 generatedTimestamp:
                                     widget.memo!.generatedTimestamp,
                                 title: _memoTitleController.text,
-                                memo: _memoController.text.replaceAll(
-                                    RegExp(
-                                        r'(\n{1,2})(?!(>|([0-9]+\.\s)|(\*\s)))'),
-                                    '\n\n'),
+                                memo: _memoController.text,
                                 memoWidgetType: MemoWidgetType.labelLong));
                       } else {
                         int now = DateTime.now().millisecondsSinceEpoch;
@@ -198,10 +196,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
                                 colorValue: _colorVal,
                                 generatedTimestamp: now,
                                 title: _memoTitleController.text,
-                                memo: _memoController.text.replaceAll(
-                                    RegExp(
-                                        r'(\n{1})(?!(>|([0-9]+\.\s)|(\*\s)))'),
-                                    '\n\n'),
+                                memo: _memoController.text,
                                 memoWidgetType: MemoWidgetType.labelLong));
                       }
 
@@ -227,6 +222,7 @@ class _CreatePlanScreenState extends State<CreatePlanScreen> {
   @override
   void dispose() {
     _memoController.dispose();
+    _memoTitleController.dispose();
     super.dispose();
   }
 }

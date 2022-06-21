@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'package:Blockit/core/themes/theme_data.dart';
+import '/core/themes/theme_data.dart';
+import '/core/constants/constants.dart';
+// import '/core/markdown/markdown_custom.dart.backup';
 
 class Editor extends StatefulWidget {
   const Editor({Key? key, required this.controller, required this.setFocusNode})
@@ -29,6 +31,11 @@ class _EditorState extends State<Editor> {
   @override
   Widget build(BuildContext context) {
     widget.controller.addListener(() {
+      if (widget.controller.text.endsWith('\n')) {
+        print('dfsafsdfdsfdsf');
+      } else {
+        print('\n');
+      }
       setState(() {
         _liveText = widget.controller.text;
       });
@@ -86,7 +93,7 @@ class _EditorState extends State<Editor> {
                               setFocusToEditor: () =>
                                   _editorFocus.requestFocus()),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -99,9 +106,17 @@ class _EditorState extends State<Editor> {
                     extensionSet: md.ExtensionSet(
                         md.ExtensionSet.gitHubWeb.blockSyntaxes,
                         ModeifiedMarkDownSyntaxes.inlineSyntaxes),
-                    data: _liveText.replaceAll(
-                        RegExp(r'(\n{1})(?!(>|([0-9]+\.\s)|(\*\s)))'), '\n\n'),
-                  ))
+                    data: _liveText,
+                  )),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 20.0),
+                  child: Text(
+                    '마크다운 에디터',
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                ),
+              ),
             ],
           )),
     );
@@ -128,21 +143,21 @@ class EditorActions {
     return [
       _actionButton(
           action: action,
-          syntax: EditorSyntax.boldSyntax,
-          syntaxHint: EditorSyntax.boldSyntaxHint,
+          syntax: MarkdownSyntax.boldSyntax,
+          syntaxHint: MarkdownSyntax.boldSyntaxHint,
           icondata: Icons.format_bold_rounded),
       _actionButton(
           action: action,
-          syntax: EditorSyntax.italicSyntax,
-          syntaxHint: EditorSyntax.italicSyntaxHint,
+          syntax: MarkdownSyntax.italicSyntax,
+          syntaxHint: MarkdownSyntax.italicSyntaxHint,
           icondata: Icons.format_italic_rounded),
       _actionButton(
           action: action,
-          syntax: EditorSyntax.quoteSyntax,
+          syntax: MarkdownSyntax.quoteSyntax,
           icondata: Icons.format_quote_rounded),
       _actionButton(
           action: action,
-          syntax: EditorSyntax.headerSyntax,
+          syntax: MarkdownSyntax.headerSyntax,
           icondata: Icons.format_size_rounded),
     ];
   }
@@ -171,12 +186,12 @@ class EditorSyntax {
       if (_syntaxDelete(cursor, syntax)) return;
     }
     switch (syntax) {
-      case boldSyntax:
-      case italicSyntax:
+      case MarkdownSyntax.boldSyntax:
+      case MarkdownSyntax.italicSyntax:
         _syntaxWrapping(cursor, syntax, syntaxHint);
         break;
-      case quoteSyntax:
-      case headerSyntax:
+      case MarkdownSyntax.quoteSyntax:
+      case MarkdownSyntax.headerSyntax:
         _syntaxOnFront(cursor, syntax);
     }
   }
@@ -276,11 +291,11 @@ class EditorSyntax {
     if ((cursor.text.length - cursor.endIndex - syntax.length >= 0) &&
         (cursor.startIndex - syntax.length >= 0)) {
       switch (syntax) {
-        case boldSyntax:
-        case italicSyntax:
+        case MarkdownSyntax.boldSyntax:
+        case MarkdownSyntax.italicSyntax:
           return _syntaxDeleteWrapping(cursor, syntax);
-        case quoteSyntax:
-        case headerSyntax:
+        case MarkdownSyntax.quoteSyntax:
+        case MarkdownSyntax.headerSyntax:
           return _syntaxDeleteOnFront(cursor, syntax);
         default:
           return false;
@@ -312,13 +327,6 @@ class EditorSyntax {
   static bool _syntaxDeleteOnFront(EditorCursor cursor, String syntax) {
     return false;
   }
-
-  static const String boldSyntax = '**';
-  static const String boldSyntaxHint = '볼드체';
-  static const String italicSyntax = '*';
-  static const String italicSyntaxHint = '이텔릭체';
-  static const String quoteSyntax = '>';
-  static const String headerSyntax = '#';
 }
 
 class EditorCursor {
