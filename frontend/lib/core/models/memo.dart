@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:Blockit/core/constants/constants.dart';
+import '/core/constants/constants.dart';
 
 part 'memo.g.dart';
 

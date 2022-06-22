@@ -5,13 +5,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 
-import 'package:Blockit/core/constants/constants.dart';
-import 'package:Blockit/core/models/memo.dart';
-import 'package:Blockit/core/themes/theme_data.dart';
-import 'package:Blockit/core/components/select_color.dart';
+import '/core/constants/constants.dart';
+import '/core/models/memo.dart';
+import '/core/themes/theme_data.dart';
+import '/core/components/select_color.dart';
 
-import 'package:Blockit/screens/edit_memo/edit_memo_screen.dart';
-import 'package:Blockit/screens/edit_memo/components/editor.dart';
+import '/screens/edit_memo/edit_memo_screen.dart';
+import '/screens/edit_memo/components/editor.dart';
 
 class MemosList extends StatefulWidget {
   const MemosList({Key? key}) : super(key: key);
@@ -169,7 +169,7 @@ class MemoWidget extends StatelessWidget {
       children: [
         Container(
             padding:
-                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 12 : 22), 30, 12),
+                EdgeInsets.fromLTRB(12, (memo.title.isEmpty ? 22 : 22), 30, 12),
             width: double.infinity,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(

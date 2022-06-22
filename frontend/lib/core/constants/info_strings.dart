@@ -1,4 +1,4 @@
-import 'package:Blockit/core/themes/theme_data.dart';
+import '/core/themes/theme_data.dart';
 import 'package:flutter/material.dart';
 
 class InfoString {
