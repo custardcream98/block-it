@@ -5,11 +5,12 @@ class Assets {
 }
 
 class HiveBoxes {
-  static const String memoBox = 'memos';
+  static const String memoBox = 'memoBox';
+  static const String textBox = 'textBox';
 }
 
 class MemosModelKey {
-  static const String generatedTimestampKey = 'memo_generated_on';
+  static const String createdKey = 'memo_created';
   static const String tagKey = 'memo_tag';
   static const String memoKey = 'memo';
   static const String titleKey = 'memo_title';
@@ -22,6 +23,17 @@ class MemosModelKey {
   static const String placeAddressKey = 'place_address';
   static const String placeXkey = 'place_x';
   static const String placeYkey = 'place_y';
+
+  // is edited
+  //static const String isEditedKey = 'is_edited';
+  static const String editedKey = 'memo_edited';
+}
+
+class BlockitRichTextModelKey {
+  static const String createdKey = 'text_created';
+  static const String typeIdKey = 'type_id';
+  static const String textKey = 'text';
+  static const String memoIdKey = 'memoId';
 }
 
 class MemoWidgetType {

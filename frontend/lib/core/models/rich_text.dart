@@ -1,8 +1,63 @@
 import 'package:flutter/material.dart';
 
+import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+import '../constants/constants.dart';
 import '../themes/theme_data.dart';
 
-enum BlockitRichTextType { h1, p, quote, bullet }
+part 'rich_text.g.dart';
+
+@HiveType(typeId: 1)
+@JsonSerializable()
+class BlockitRichTextModel extends HiveObject {
+  BlockitRichTextModel(
+      {required this.created,
+      required this.type,
+      required this.text,
+      required this.memoId});
+
+  @HiveField(0)
+  @JsonKey(name: BlockitRichTextModelKey.createdKey, required: true)
+  DateTime created;
+
+  @HiveField(1)
+  @JsonKey(name: BlockitRichTextModelKey.typeIdKey, required: true)
+  BlockitRichTextType type;
+
+  @HiveField(2)
+  @JsonKey(name: BlockitRichTextModelKey.textKey, required: true)
+  String text;
+
+  @HiveField(3)
+  @JsonKey(name: BlockitRichTextModelKey.memoIdKey, required: true)
+  String memoId;
+
+  factory BlockitRichTextModel.fromJson(Map<String, dynamic> json) =>
+      _$BlockitRichTextModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockitRichTextModelToJson(this);
+
+  bool compare(BlockitRichTextModel text) {
+    return text.text == this.text && text.type == type;
+  }
+}
+
+@HiveType(typeId: 2)
+enum BlockitRichTextType {
+  @JsonValue("p")
+  @HiveField(0)
+  p,
+  @JsonValue("h1")
+  @HiveField(1)
+  h1,
+  @JsonValue("quote")
+  @HiveField(2)
+  quote,
+  @JsonValue("bullet")
+  @HiveField(3)
+  bullet
+}
 
 extension BlockitRichTextStyle on BlockitRichTextType {
   TextStyle get textStyle {
@@ -49,38 +104,19 @@ extension BlockitRichTextStyle on BlockitRichTextType {
         return '';
     }
   }
-}
 
-class BlockitRichTextField extends StatelessWidget {
-  const BlockitRichTextField(
-      {Key? key,
-      required this.type,
-      required this.controller,
-      required this.focusNode})
-      : super(key: key);
-
-  final BlockitRichTextType type;
-  final TextEditingController controller;
-  final FocusNode focusNode;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-        controller: controller,
-        focusNode: focusNode,
-        autofocus: true,
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        cursorColor: AppThemeData.mainGrayColor,
-        textAlign: type.align,
-        decoration: InputDecoration(
-            border: InputBorder.none,
-            prefixText: type.prefix,
-            prefixStyle: type.textStyle,
-            isDense: true,
-            contentPadding: type.padding),
-        style: type.textStyle);
-  }
+  // int get typeId {
+  //   switch (this) {
+  //     case BlockitRichTextType.p:
+  //       return 0;
+  //     case BlockitRichTextType.h1:
+  //       return 1;
+  //     case BlockitRichTextType.quote:
+  //       return 2;
+  //     case BlockitRichTextType.bullet:
+  //       return 3;
+  //   }
+  // }
 }
 
 // import 'package:hive/hive.dart';

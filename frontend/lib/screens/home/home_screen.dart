@@ -9,9 +9,9 @@ import '/core/constants/constants.dart';
 import '/core/constants/info_strings.dart';
 import '/core/themes/theme_data.dart';
 import '/core/components/components.dart';
-import '/screens/home/components/memo_widgets.dart';
+import '/core/editor/widgets/memo_box.dart';
 import '/screens/edit_memo/edit_memo_screen.dart';
-import '/screens/edit_memo/components/editor.dart';
+// import '/screens/edit_memo/components/editor.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -70,8 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 listItemCrossAxisAlignment:
                                     MarkdownListItemCrossAxisAlignment.start,
                                 extensionSet: md.ExtensionSet(
-                                    md.ExtensionSet.gitHubWeb.blockSyntaxes,
-                                    ModeifiedMarkDownSyntaxes.inlineSyntaxes),
+                                    md.ExtensionSet.gitHubWeb.blockSyntaxes, [
+                                  md.EmojiSyntax(),
+                                  ...md.ExtensionSet.gitHubWeb.inlineSyntaxes
+                                ]),
                                 onTapLink: (text, url, title) {
                                   launchUrl(Uri.parse(url!));
                                 },
@@ -106,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ))),
       body: const Padding(
-          padding: EdgeInsets.only(left: 12, right: 12), child: MemosList()),
+          padding: EdgeInsets.only(left: 12, right: 12), child: MemoList()),
     );
   }
 }
@@ -118,7 +120,7 @@ class AppBarActions {
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const CreatePlanScreen(),
+                builder: (context) => EditMemoScreen(),
               )),
           icon:
               const Icon(CupertinoIcons.plus_rectangle_fill_on_rectangle_fill))

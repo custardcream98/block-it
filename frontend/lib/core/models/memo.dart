@@ -1,7 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '/core/constants/constants.dart';
+import '../constants/constants.dart';
+import 'rich_text.dart';
 
 part 'memo.g.dart';
 
@@ -13,8 +14,8 @@ part 'memo.g.dart';
 @JsonSerializable()
 class MemosModel {
   MemosModel(
-      {required this.generatedTimestamp,
-      this.memoTag = "태그",
+      {required this.created,
+      this.memoTag = const [],
       required this.memo,
       this.title = "",
       required this.colorValue,
@@ -23,19 +24,24 @@ class MemosModel {
       this.placeAddress = "",
       this.placeX = 0,
       this.placeY = 0,
-      required this.memoWidgetType});
+      required this.memoWidgetType,
+      this.isEdited = false});
 
   @HiveField(0)
-  @JsonKey(name: MemosModelKey.generatedTimestampKey, required: true)
-  int generatedTimestamp;
+  @JsonKey(name: MemosModelKey.createdKey, required: true)
+  DateTime created;
 
   @HiveField(1)
   @JsonKey(name: MemosModelKey.tagKey, required: true)
-  String memoTag;
+  List<String> memoTag;
 
   @HiveField(2)
-  @JsonKey(name: MemosModelKey.memoKey, required: true)
-  String memo;
+  @JsonKey(
+      name: MemosModelKey.memoKey,
+      required: true,
+      fromJson: _memoFromJson,
+      toJson: _memoToJson)
+  HiveList<BlockitRichTextModel> memo;
 
   @HiveField(3)
   @JsonKey(name: MemosModelKey.titleKey, required: true)
@@ -69,19 +75,55 @@ class MemosModel {
   @JsonKey(name: MemosModelKey.memoWidgetTypeKey, required: true)
   int memoWidgetType;
 
+  @HiveField(11)
+  bool isEdited;
+
+  @HiveField(12)
+  @JsonKey(name: MemosModelKey.editedKey, required: false)
+  DateTime? edited;
+
   factory MemosModel.fromJson(Map<String, dynamic> json) =>
       _$MemosModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$MemosModelToJson(this);
 
-  String getgeneratedTimeString() {
-    DateTime generatedTime =
-        DateTime.fromMillisecondsSinceEpoch(generatedTimestamp);
+  static HiveList<BlockitRichTextModel> _memoFromJson(
+      List<Map<String, dynamic>> json) {
+    Box<BlockitRichTextModel> memoBox = Hive.box(HiveBoxes.memoBox);
 
-    String hourStr = generatedTime.hour < 12
-        ? '오전 ${generatedTime.hour}시'
-        : '오후 ${generatedTime.hour - 12}시';
+    List<BlockitRichTextModel> out = [];
 
-    return '${generatedTime.month}월 ${generatedTime.day}일 $hourStr ${generatedTime.minute}분';
+    for (int i = 0; i < json.length; i++) {
+      BlockitRichTextModel text = BlockitRichTextModel.fromJson(json[i]);
+
+      // BlockitRichTextModel? textFromBox =
+      //     textBox.get(created.millisecondsSinceEpoch.toString() + i.toString());
+      // if (textFromBox != null) {
+      //   if (textFromBox.compare(text)) {
+      //     textFromBox.delete();
+      //   }
+      // }
+
+      out.add(text);
+    }
+
+    return HiveList(memoBox, objects: out);
   }
+
+  static List<Map<String, dynamic>> _memoToJson(
+      HiveList<BlockitRichTextModel> memo) {
+    List<Map<String, dynamic>> out = [];
+    memo.map((e) => out.add(e.toJson()));
+    return out;
+  }
+
+  String createdAtString() {
+    DateTime time = (isEdited ? edited! : created);
+    String hourStr =
+        time.hour < 12 ? '오전 ${time.hour}시' : '오후 ${time.hour - 12}시';
+
+    return '${time.month}월 ${time.day}일 $hourStr ${time.minute}분${isEdited ? ' (수정됨)' : ''}';
+  }
+
+  // String getMemeo
 }
