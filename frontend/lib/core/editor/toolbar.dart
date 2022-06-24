@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../themes/theme_data.dart';
-import 'provider.dart';
 import '../models/rich_text.dart';
+import 'provider.dart';
 
 class ToolBar extends StatefulWidget {
   const ToolBar({

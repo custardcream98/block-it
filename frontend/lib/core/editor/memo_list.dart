@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 import '../../screens/edit_memo/edit_memo_screen.dart';
-import 'memo_box.dart';
 import '../models/memo.dart';
 import '../themes/theme_data.dart';
 import '../constants/constants.dart';
+import 'memo_box.dart';
 
 class MemoList extends StatefulWidget {
   const MemoList({Key? key}) : super(key: key);

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:block_it/core/editor/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +8,7 @@ import '../../core/components/components.dart';
 import '../../core/components/select_color.dart';
 import '../../core/constants/constants.dart';
 import '../../core/editor/editor.dart';
+import '../../core/editor/provider.dart';
 import '../../core/editor/toolbar.dart';
 import '../../core/models/memo.dart';
 import '../../core/models/rich_text.dart';

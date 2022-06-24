@@ -5,12 +5,12 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '/core/constants/constants.dart';
-import '/core/constants/info_strings.dart';
-import '/core/themes/theme_data.dart';
-import '/core/components/components.dart';
-import '/core/editor/memo_list.dart';
-import '/screens/edit_memo/edit_memo_screen.dart';
+import '../../core/constants/constants.dart';
+import '../../core/constants/info_strings.dart';
+import '../../core/themes/theme_data.dart';
+import '../../core/components/components.dart';
+import '../../core/editor/memo_list.dart';
+import '../edit_memo/edit_memo_screen.dart';
 // import '/screens/edit_memo/components/editor.dart';
 
 class HomeScreen extends StatefulWidget {

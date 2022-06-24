@@ -1,5 +1,6 @@
-import '/core/themes/theme_data.dart';
 import 'package:flutter/material.dart';
+
+import '../themes/theme_data.dart';
 
 class InfoString {
   static String introduce = '''
