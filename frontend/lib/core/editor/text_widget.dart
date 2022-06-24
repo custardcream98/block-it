@@ -17,21 +17,25 @@ class BlockitRichTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-        controller: controller,
-        focusNode: focusNode,
-        autofocus: true,
-        keyboardType: TextInputType.multiline,
-        maxLines: null,
-        cursorColor: AppThemeData.mainGrayColor,
-        textAlign: type.align,
-        decoration: InputDecoration(
+    return Padding(
+      padding: type.padding,
+      child: TextField(
+          controller: controller,
+          focusNode: focusNode,
+          autofocus: true,
+          keyboardType: TextInputType.multiline,
+          maxLines: null,
+          cursorColor: AppThemeData.mainGrayColor,
+          textAlign: type.align,
+          decoration: InputDecoration(
+            hintText: type.hintText,
             border: InputBorder.none,
             prefixText: type.prefix,
             prefixStyle: type.textStyle,
             isDense: true,
-            contentPadding: type.padding),
-        style: type.textStyle);
+          ),
+          style: type.textStyle),
+    );
   }
 }
 
@@ -45,7 +49,7 @@ class BlockitRichText extends StatelessWidget {
     return Padding(
       padding: richText.type.padding,
       child: Text(
-        richText.text,
+        richText.type.prefix + richText.text,
         style: richText.type.textStyle,
         textAlign: richText.type.align,
       ),

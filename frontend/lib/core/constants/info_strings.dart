@@ -39,6 +39,7 @@ INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 To
 
 #### Changelog
 
+* **22/6/24** block it만의 특별한 에디터를 만들었어요.
 * **22/6/23** Memo Modle 설계 완료
   * 메모 수정 내역까지 볼 수 있도록 모델을 설계했어요. (추후 구현 예정)
 * **22/6/22 ~ 32** Markdown 대신 Custom Rich Text Editor 개발
@@ -54,6 +55,9 @@ INFP 개발자 지망생이 공부에 치이다 일정관리 함 해보려고 To
 * 에디터 기능 추가
 * 사진 저장 기능 추가
 * 줄간격 조절
+* 수정내역 조회 추가
+* Bold Text, Italic Text 처리 기능 추가
+* Multi Block Selection 추가
 
 ''';
 

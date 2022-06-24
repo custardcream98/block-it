@@ -72,8 +72,9 @@ extension BlockitRichTextStyle on BlockitRichTextType {
       case BlockitRichTextType.quote:
         return AppThemeData.textTheme.bodySmall!.copyWith(
             fontWeight: FontWeight.w800,
-            color: AppThemeData.mainGrayColor,
-            fontSize: AppThemeData.textTheme.bodySmall!.fontSize! * 0.9);
+            color: AppThemeData.mainGrayColor.withAlpha(80),
+            fontSize: AppThemeData.textTheme.bodySmall!.fontSize! * 1.2,
+            fontStyle: FontStyle.italic);
       case BlockitRichTextType.h1:
         return AppThemeData.textTheme.bodyLarge!;
       default:
@@ -88,9 +89,9 @@ extension BlockitRichTextStyle on BlockitRichTextType {
       case BlockitRichTextType.quote:
         return const EdgeInsets.fromLTRB(2, 10, 16, 10);
       case BlockitRichTextType.bullet:
-        return const EdgeInsets.fromLTRB(10, 3, 16, 3);
+        return const EdgeInsets.fromLTRB(10, 2, 16, 2);
       default:
-        return const EdgeInsets.fromLTRB(2, 3, 16, 3);
+        return const EdgeInsets.fromLTRB(2, 2, 16, 2);
     }
   }
 
@@ -109,6 +110,28 @@ extension BlockitRichTextStyle on BlockitRichTextType {
         return '\u2022 ';
       default:
         return '';
+    }
+  }
+
+  String get hintText {
+    switch (this) {
+      case BlockitRichTextType.h1:
+        return "큰 글씨";
+      case BlockitRichTextType.quote:
+        return "인용구";
+      case BlockitRichTextType.bullet:
+        return "글머리 표";
+      case BlockitRichTextType.p:
+        return "문단";
+    }
+  }
+
+  InputBorder get inputBorder {
+    switch (this) {
+      case BlockitRichTextType.quote:
+        return OutlineInputBorder();
+      default:
+        return InputBorder.none;
     }
   }
 }

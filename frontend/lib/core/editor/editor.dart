@@ -21,7 +21,7 @@ class _EditorState extends State<Editor> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 8.0, 15.0, 8.0),
       child: Consumer<EditorProvider>(builder: (context, state, _) {
         return ListView.builder(
             shrinkWrap: true,

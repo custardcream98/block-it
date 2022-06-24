@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../models/memo.dart';
 import '../models/rich_text.dart';
@@ -31,7 +32,7 @@ class EditorProvider with ChangeNotifier {
     for (int index = 0; index < latestMemo.length; index++) {
       insert(
           index: index,
-          text: latestMemo[index].text.replaceFirst('\u200B', ""),
+          text: latestMemo[index].text,
           type: latestMemo[index].type);
     }
 
@@ -43,7 +44,8 @@ class EditorProvider with ChangeNotifier {
   FocusNode focusNodeAt(int index) => _focusNodes.elementAt(index);
   TextEditingController textControllerAt(int index) =>
       _textControllers.elementAt(index);
-  String textAt(int index) => _textControllers.elementAt(index).text;
+  String textAt(int index) =>
+      _textControllers.elementAt(index).text.replaceFirst('\u200B', "");
   BlockitRichTextType typeAt(int index) => _types.elementAt(index);
 
   void setType(BlockitRichTextType type) {
@@ -114,8 +116,52 @@ class EditorProvider with ChangeNotifier {
 
     _textControllers.insert(index, controller);
     _types.insert(index, type);
-    _focusNodes.insert(index, FocusNode());
+
+    FocusNode focusNode = FocusNode();
+
+    focusNode.onKeyEvent = ((focusNode, keyEvent) {
+      if (keyEvent.runtimeType == KeyDownEvent) {
+        if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
+          moveUpDown(index, -1);
+          return KeyEventResult.handled;
+        } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
+          moveUpDown(index, 1);
+          return KeyEventResult.handled;
+        }
+      }
+      return KeyEventResult.ignored;
+    });
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        lastFocus = index;
+      }
+    });
+    _focusNodes.insert(index, focusNode);
 
     notifyListeners();
   }
+
+  void moveUpDown(int index, int moveAmount) {
+    if ((index > 0 && moveAmount < 0) ||
+        (index < length - 1 && moveAmount > 0)) {
+      int? offset;
+      int textAtOffset = textAt(index + moveAmount).length + 1;
+      if (textControllerAt(index).selection.isCollapsed &&
+          typeAt(index) == typeAt(index + moveAmount)) {
+        offset = textControllerAt(index).selection.baseOffset;
+        offset =
+            textAt(index + moveAmount).length >= offset ? offset : textAtOffset;
+      }
+
+      setFocus(index + moveAmount);
+
+      textControllerAt(lastFocus).selection = TextSelection.fromPosition(
+          TextPosition(offset: offset ?? textAtOffset));
+    }
+    focusNodeAt(lastFocus).requestFocus();
+    notifyListeners();
+  }
+
+  void moveUp() => moveUpDown(lastFocus, -1);
+  void moveDown() => moveUpDown(lastFocus, 1);
 }

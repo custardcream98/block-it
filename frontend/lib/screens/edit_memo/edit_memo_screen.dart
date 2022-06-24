@@ -63,20 +63,6 @@ class _EditMemoScreenState extends State<EditMemoScreen> {
     );
   }
 
-  Widget _toolBar({required bool isBottom}) {
-    Size screenSize = MediaQuery.of(context).size;
-    bool isToolBarBottom = screenSize.height < 500 || screenSize.width < 1200;
-
-    return Visibility(
-      visible: !(isBottom ^ isToolBarBottom),
-      child: Selector<EditorProvider, BlockitRichTextType>(
-        selector: (context, state) => state.selectedType,
-        builder: (context, selectedType, _) =>
-            ToolBar(selectedType: selectedType, isBottom: isBottom),
-      ),
-    );
-  }
-
   void _loadMemo() {
     setState(() {
       _memoTitleController.text = widget.memoModelForEdit!.title;
@@ -108,7 +94,7 @@ class _EditMemoScreenState extends State<EditMemoScreen> {
             memosModel: widget.isEdit ? widget.memoModelForEdit! : null),
         builder: (context, _) {
           return Scaffold(
-              resizeToAvoidBottomInset: false, // disable keyboard resize
+              // resizeToAvoidBottomInset: false, // disable keyboard resize
               backgroundColor: AppThemeData.mainBackgroundWhite,
               appBar: Components.appBar(
                   leading: IconButton(
@@ -141,7 +127,7 @@ class _EditMemoScreenState extends State<EditMemoScreen> {
                     onSubmitted: (input) => _editorFocusNode.requestFocus(),
                   ),
                   actions: [
-                    _toolBar(isBottom: false),
+                    const ToolBar(isBottom: false),
                     ElevatedButton(
                         onPressed: () async {
                           int? newColorVal =
@@ -166,11 +152,11 @@ class _EditMemoScreenState extends State<EditMemoScreen> {
                     )
                   ]),
               body: Column(
-                children: [
-                  const Expanded(
+                children: const [
+                  Expanded(
                     child: Editor(),
                   ),
-                  _toolBar(isBottom: true)
+                  ToolBar(isBottom: true)
                 ],
               ));
         });

@@ -9,12 +9,10 @@ import '../models/rich_text.dart';
 class ToolBar extends StatefulWidget {
   const ToolBar({
     Key? key,
-    required this.selectedType,
     required this.isBottom,
     // required this.onSelected
   }) : super(key: key);
 
-  final BlockitRichTextType selectedType;
   final bool isBottom;
   // final void Function(BlockitRichTextType) onSelected;
 
@@ -23,16 +21,26 @@ class ToolBar extends StatefulWidget {
 }
 
 class _ToolBarState extends State<ToolBar> {
-  Widget _actionButton(
-      {required IconData icondata, required BlockitRichTextType type}) {
+  Widget _typeActionButton(
+      {required IconData icondata,
+      required BlockitRichTextType selectedType,
+      required BlockitRichTextType type}) {
     return IconButton(
         onPressed: () {
           context.read<EditorProvider>().setType(type);
         },
         icon: Icon(icondata,
-            color: widget.selectedType == type
+            color: selectedType == type
                 ? Colors.teal
                 : AppThemeData.mainGrayColor));
+  }
+
+  Widget _editorActionButton({required IconData icondata, required bool isUp}) {
+    return IconButton(
+        onPressed: isUp
+            ? context.read<EditorProvider>().moveUp
+            : context.read<EditorProvider>().moveDown,
+        icon: Icon(icondata, color: AppThemeData.mainGrayColor));
   }
 
   @override
@@ -42,25 +50,45 @@ class _ToolBarState extends State<ToolBar> {
 
     Widget buttonsRow = Visibility(
       visible: !(widget.isBottom ^ isToolBarBottom),
-      child: Selector<EditorProvider, BlockitRichTextType>(
-        selector: (context, state) => state.selectedType,
-        builder: (context, selectedType, _) => Row(children: [
-          _actionButton(
-              icondata: Icons.format_quote_rounded,
-              type: BlockitRichTextType.quote),
-          _actionButton(
-              icondata: Icons.format_size_rounded,
-              type: BlockitRichTextType.h1),
-          _actionButton(
-              icondata: Icons.format_list_bulleted_rounded,
-              type: BlockitRichTextType.bullet)
-        ]),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Selector<EditorProvider, BlockitRichTextType>(
+            selector: (context, state) => state.selectedType,
+            builder: (context, selectedType, _) => Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _typeActionButton(
+                      icondata: Icons.format_quote_rounded,
+                      selectedType: selectedType,
+                      type: BlockitRichTextType.quote),
+                  _typeActionButton(
+                      icondata: Icons.format_size_rounded,
+                      selectedType: selectedType,
+                      type: BlockitRichTextType.h1),
+                  _typeActionButton(
+                      icondata: Icons.format_list_bulleted_rounded,
+                      selectedType: selectedType,
+                      type: BlockitRichTextType.bullet),
+                ]),
+          ),
+          if (isToolBarBottom) ...[
+            _editorActionButton(
+                icondata: Icons.arrow_upward_rounded, isUp: true),
+            _editorActionButton(
+                icondata: Icons.arrow_downward_rounded, isUp: false)
+          ]
+        ],
       ),
     );
 
     if (widget.isBottom) {
       return PreferredSize(
-          preferredSize: const Size.fromHeight(56), child: buttonsRow);
+          preferredSize: const Size.fromHeight(56),
+          child: Align(alignment: Alignment.centerRight, child: buttonsRow));
     } else {
       return buttonsRow;
     }
