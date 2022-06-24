@@ -30,7 +30,6 @@ class _MemoListState extends State<MemoList> {
 
     setState(() {
       _memoModels = memos;
-      print(_memoModels);
       _isReloaded = true;
     });
   }
