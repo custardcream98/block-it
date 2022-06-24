@@ -9,7 +9,12 @@ class HiveBoxes {
   static const String textBox = 'textBox';
 }
 
-class MemosModelKey {
+class MemosModelMemoKey {
+  static const String created = 'created';
+  static const String memo = 'memo';
+}
+
+class MemosModelJsonKey {
   static const String createdKey = 'memo_created';
   static const String tagKey = 'memo_tag';
   static const String memoKey = 'memo';
@@ -29,8 +34,8 @@ class MemosModelKey {
   static const String editedKey = 'memo_edited';
 }
 
-class BlockitRichTextModelKey {
-  static const String createdKey = 'text_created';
+class BlockitRichTextModelJsonKey {
+  static const String editedKey = 'text_edited';
   static const String typeIdKey = 'type_id';
   static const String textKey = 'text';
   static const String memoIdKey = 'memoId';

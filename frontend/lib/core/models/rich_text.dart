@@ -1,46 +1,53 @@
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../constants/constants.dart';
+// import '../constants/constants.dart';
 import '../themes/theme_data.dart';
 
 part 'rich_text.g.dart';
 
 @HiveType(typeId: 1)
-@JsonSerializable()
+// @JsonSerializable()
 class BlockitRichTextModel extends HiveObject {
   BlockitRichTextModel(
-      {required this.created,
-      required this.type,
-      required this.text,
-      required this.memoId});
+      {required this.type, required this.text, required this.textKey});
+
+  //: edited = [created];
+
+  // @HiveField(0)
+  // @JsonKey(name: BlockitRichTextModelJsonKey.editedKey, required: true)
+  // Map<DateTime,> edited;
 
   @HiveField(0)
-  @JsonKey(name: BlockitRichTextModelKey.createdKey, required: true)
-  DateTime created;
-
-  @HiveField(1)
-  @JsonKey(name: BlockitRichTextModelKey.typeIdKey, required: true)
+  // @JsonKey(name: BlockitRichTextModelJsonKey.typeIdKey, required: true)
   BlockitRichTextType type;
 
-  @HiveField(2)
-  @JsonKey(name: BlockitRichTextModelKey.textKey, required: true)
+  @HiveField(1)
+  // @JsonKey(name: BlockitRichTextModelJsonKey.textKey, required: true)
   String text;
 
-  @HiveField(3)
-  @JsonKey(name: BlockitRichTextModelKey.memoIdKey, required: true)
-  String memoId;
+  @HiveField(2)
+  // @JsonKey(name: BlockitRichTextModelJsonKey.memoIdKey, required: true)
+  String textKey;
 
-  factory BlockitRichTextModel.fromJson(Map<String, dynamic> json) =>
-      _$BlockitRichTextModelFromJson(json);
+  // factory BlockitRichTextModel.fromJson(Map<String, dynamic> json) =>
+  //     _$BlockitRichTextModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$BlockitRichTextModelToJson(this);
+  // Map<String, dynamic> toJson() => _$BlockitRichTextModelToJson(this);
 
-  bool compare(BlockitRichTextModel text) {
-    return text.text == this.text && text.type == type;
-  }
+  // bool compare(BlockitRichTextModel text) {
+  //   return listEquals(text.edited, edited) &&
+  //       text.text == this.text &&
+  //       text.type == type &&
+  //       text.memoId == memoId;
+  // }
+  // BlockitRichTextType getType(DateTime time) => type[time]!;
+  // String getText(DateTime time) => text[time]!;
+
+  static String getKey(DateTime time, int index) => '$time-$index';
 }
 
 @HiveType(typeId: 2)
@@ -77,13 +84,13 @@ extension BlockitRichTextStyle on BlockitRichTextType {
   EdgeInsets get padding {
     switch (this) {
       case BlockitRichTextType.h1:
-        return const EdgeInsets.fromLTRB(16, 24, 16, 8);
+        return const EdgeInsets.fromLTRB(2, 17, 16, 5);
       case BlockitRichTextType.quote:
-        return const EdgeInsets.fromLTRB(16, 16, 16, 16);
+        return const EdgeInsets.fromLTRB(2, 10, 16, 10);
       case BlockitRichTextType.bullet:
-        return const EdgeInsets.fromLTRB(24, 8, 16, 8);
+        return const EdgeInsets.fromLTRB(10, 3, 16, 3);
       default:
-        return const EdgeInsets.fromLTRB(16, 8, 16, 8);
+        return const EdgeInsets.fromLTRB(2, 3, 16, 3);
     }
   }
 
@@ -104,38 +111,4 @@ extension BlockitRichTextStyle on BlockitRichTextType {
         return '';
     }
   }
-
-  // int get typeId {
-  //   switch (this) {
-  //     case BlockitRichTextType.p:
-  //       return 0;
-  //     case BlockitRichTextType.h1:
-  //       return 1;
-  //     case BlockitRichTextType.quote:
-  //       return 2;
-  //     case BlockitRichTextType.bullet:
-  //       return 3;
-  //   }
-  // }
 }
-
-// import 'package:hive/hive.dart';
-// import 'package:json_annotation/json_annotation.dart';
-
-// part 'rich_text.g.dart';
-
-// @HiveType(typeId: 1)
-// @JsonSerializable()
-// class RichTextModel {
-//   RichTextModel(
-//       {});
-
-//   @HiveField(0)
-//   @JsonKey(name: MemosModelKey.generatedTimestampKey, required: true)
-//   int generatedTimestamp;
-
-//   factory RichTextModel.fromJson(Map<String, dynamic> json) =>
-//       _$RichTextModelFromJson(json);
-
-//   Map<String, dynamic> toJson() => _$RichTextModelToJson(this);
-// }

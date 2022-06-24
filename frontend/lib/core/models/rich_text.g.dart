@@ -17,25 +17,22 @@ class BlockitRichTextModelAdapter extends TypeAdapter<BlockitRichTextModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return BlockitRichTextModel(
-      created: fields[0] as DateTime,
-      type: fields[1] as BlockitRichTextType,
-      text: fields[2] as String,
-      memoId: fields[3] as String,
+      type: fields[0] as BlockitRichTextType,
+      text: fields[1] as String,
+      textKey: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, BlockitRichTextModel obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.created)
-      ..writeByte(1)
-      ..write(obj.type)
-      ..writeByte(2)
-      ..write(obj.text)
       ..writeByte(3)
-      ..write(obj.memoId);
+      ..writeByte(0)
+      ..write(obj.type)
+      ..writeByte(1)
+      ..write(obj.text)
+      ..writeByte(2)
+      ..write(obj.textKey);
   }
 
   @override
@@ -97,36 +94,3 @@ class BlockitRichTextTypeAdapter extends TypeAdapter<BlockitRichTextType> {
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-BlockitRichTextModel _$BlockitRichTextModelFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    requiredKeys: const ['text_created', 'type_id', 'text', 'memoId'],
-  );
-  return BlockitRichTextModel(
-    created: DateTime.parse(json['text_created'] as String),
-    type: $enumDecode(_$BlockitRichTextTypeEnumMap, json['type_id']),
-    text: json['text'] as String,
-    memoId: json['memoId'] as String,
-  );
-}
-
-Map<String, dynamic> _$BlockitRichTextModelToJson(
-        BlockitRichTextModel instance) =>
-    <String, dynamic>{
-      'text_created': instance.created.toIso8601String(),
-      'type_id': _$BlockitRichTextTypeEnumMap[instance.type],
-      'text': instance.text,
-      'memoId': instance.memoId,
-    };
-
-const _$BlockitRichTextTypeEnumMap = {
-  BlockitRichTextType.p: 'p',
-  BlockitRichTextType.h1: 'h1',
-  BlockitRichTextType.quote: 'quote',
-  BlockitRichTextType.bullet: 'bullet',
-};

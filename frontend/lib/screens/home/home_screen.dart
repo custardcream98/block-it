@@ -9,7 +9,7 @@ import '/core/constants/constants.dart';
 import '/core/constants/info_strings.dart';
 import '/core/themes/theme_data.dart';
 import '/core/components/components.dart';
-import '/core/editor/widgets/memo_box.dart';
+import '/core/editor/memo_list.dart';
 import '/screens/edit_memo/edit_memo_screen.dart';
 // import '/screens/edit_memo/components/editor.dart';
 
@@ -120,7 +120,7 @@ class AppBarActions {
           onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EditMemoScreen(),
+                builder: (context) => const EditMemoScreen(),
               )),
           icon:
               const Icon(CupertinoIcons.plus_rectangle_fill_on_rectangle_fill))

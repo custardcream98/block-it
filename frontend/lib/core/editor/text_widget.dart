@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../themes/theme_data.dart';
-import '../../models/rich_text.dart';
+import '../themes/theme_data.dart';
+import '../models/rich_text.dart';
 
 class BlockitRichTextField extends StatelessWidget {
   const BlockitRichTextField(

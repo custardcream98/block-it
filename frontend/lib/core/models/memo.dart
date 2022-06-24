@@ -1,7 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../constants/constants.dart';
 import 'rich_text.dart';
 
 part 'memo.g.dart';
@@ -10,13 +9,15 @@ part 'memo.g.dart';
 ///
 /// `flutter pub run build_runner watch`
 
+/// fromJson, toJson 개발 보류
+/// 추후 Backend와 상호작용이 필요할 경우 개발
+
 @HiveType(typeId: 0)
-@JsonSerializable()
+// @JsonSerializable()
 class MemosModel {
   MemosModel(
-      {required this.created,
-      this.memoTag = const [],
-      required this.memo,
+      {this.memoTag = const [],
+      required this.memoHistory,
       this.title = "",
       required this.colorValue,
       this.imagePath = "",
@@ -25,105 +26,196 @@ class MemosModel {
       this.placeX = 0,
       this.placeY = 0,
       required this.memoWidgetType,
-      this.isEdited = false});
+      required this.memoKey});
+  // MemosModel.create(
+  //     {
+  //required DateTime created,
+  //     required List<String> createdTextId,
+  //     this.memoTag = const [],
+  //     this.title = "",
+  //     required this.colorValue,
+  //     this.imagePath = "",
+  //     this.placeName = "",
+  //     this.placeAddress = "",
+  //     this.placeX = 0,
+  //     this.placeY = 0,
+  //     required this.memoWidgetType,
+  //     this.memoHistory = const {},
+  //     this.memoId = ""}) {
+  //   memoHistory = {};
+  //   memoHistory[created] = [];
+  //   for (String id in createdTextId) {
+  //     memoHistory[created]!.add(id);
+  //   }
+  //   memoId = created.millisecondsSinceEpoch.toString();
+  // }
+
+  // /// Hive Box에서 Key로 이용
+  // @HiveField(0)
+  // // @JsonKey(name: MemosModelJsonKey.editedKey, required: true)
+  // List<DateTime> edited;
 
   @HiveField(0)
-  @JsonKey(name: MemosModelKey.createdKey, required: true)
-  DateTime created;
-
-  @HiveField(1)
-  @JsonKey(name: MemosModelKey.tagKey, required: true)
+  // @JsonKey(name: MemosModelJsonKey.tagKey, required: true)
   List<String> memoTag;
 
-  @HiveField(2)
-  @JsonKey(
-      name: MemosModelKey.memoKey,
-      required: true,
-      fromJson: _memoFromJson,
-      toJson: _memoToJson)
-  HiveList<BlockitRichTextModel> memo;
+  /// [BlockitRichTextModel]의 id를 담는 곳
+  ///
+  /// edit시에 갱신한다.
+  /// ```
+  /// {
+  ///   DateTime: <int>[
+  ///     BlockitRichTextModel ID,
+  ///     BlockitRichTextModel ID, ...
+  ///   ]
+  /// }
+  /// ```
+  @HiveField(1)
+  // @JsonKey(
+  //     name: MemosModelJsonKey.memoKey,
+  //     required: true,
+  //     fromJson: _memoFromJson,
+  //     toJson: _memoToJson)
+  Map<DateTime, HiveList<BlockitRichTextModel>> memoHistory;
 
-  @HiveField(3)
-  @JsonKey(name: MemosModelKey.titleKey, required: true)
+  ///```
+  /// [
+  ///   [
+  ///     {
+  ///       isEdited: bool
+  ///       created: DateTime
+  ///       memo: BlockitRichTextModel
+  ///     }, ...
+  ///   ], ...
+  /// ]
+  ///```
+  // @HiveField(3)
+  // Map<DateTime, List<>> memoHistory;
+
+  @HiveField(2)
+  // @JsonKey(name: MemosModelJsonKey.titleKey, required: true)
   String title;
 
-  @HiveField(4)
-  @JsonKey(name: MemosModelKey.colorValueKey, required: true)
+  @HiveField(3)
+  // @JsonKey(name: MemosModelJsonKey.colorValueKey, required: true)
   int colorValue;
 
-  @HiveField(5)
-  @JsonKey(name: MemosModelKey.imagePathKey, required: true)
+  @HiveField(4)
+  // @JsonKey(name: MemosModelJsonKey.imagePathKey, required: true)
   String imagePath;
 
-  @HiveField(6)
-  @JsonKey(name: MemosModelKey.placeNameKey, required: true)
+  @HiveField(5)
+  // @JsonKey(name: MemosModelJsonKey.placeNameKey, required: true)
   String placeName;
 
-  @HiveField(7)
-  @JsonKey(name: MemosModelKey.placeAddressKey, required: true)
+  @HiveField(6)
+  // @JsonKey(name: MemosModelJsonKey.placeAddressKey, required: true)
   String placeAddress;
 
-  @HiveField(8)
-  @JsonKey(name: MemosModelKey.placeXkey, required: true)
+  @HiveField(7)
+  // @JsonKey(name: MemosModelJsonKey.placeXkey, required: true)
   int placeX;
 
-  @HiveField(9)
-  @JsonKey(name: MemosModelKey.placeYkey, required: true)
+  @HiveField(8)
+  // @JsonKey(name: MemosModelJsonKey.placeYkey, required: true)
   int placeY;
 
-  @HiveField(10)
-  @JsonKey(name: MemosModelKey.memoWidgetTypeKey, required: true)
+  @HiveField(9)
+  // @JsonKey(name: MemosModelJsonKey.memoWidgetTypeKey, required: true)
   int memoWidgetType;
 
-  @HiveField(11)
-  bool isEdited;
+  @HiveField(10)
+  String memoKey;
 
-  @HiveField(12)
-  @JsonKey(name: MemosModelKey.editedKey, required: false)
-  DateTime? edited;
+  List<DateTime> get edited => memoHistory.keys.toList();
+  bool get isEdited => edited.length > 1;
+  DateTime get lastEdited => edited.last;
+  DateTime get firstEdited => edited.first;
+  //int _editedIndex(DateTime time) => edited.indexOf(time);
 
-  factory MemosModel.fromJson(Map<String, dynamic> json) =>
-      _$MemosModelFromJson(json);
+  // @HiveField(12)
+  // @JsonKey(name: MemosModelJsonKey.editedKey, required: true)
+  // List<DateTime> edited; // edited.last: 최신
 
-  Map<String, dynamic> toJson() => _$MemosModelToJson(this);
+  // factory MemosModel.fromJson(Map<String, dynamic> json) =>
+  //     _$MemosModelFromJson(json);
 
-  static HiveList<BlockitRichTextModel> _memoFromJson(
-      List<Map<String, dynamic>> json) {
-    Box<BlockitRichTextModel> memoBox = Hive.box(HiveBoxes.memoBox);
+  // Map<String, dynamic> toJson() => _$MemosModelToJson(this);
 
-    List<BlockitRichTextModel> out = [];
+  // static List<List<Map<String, dynamic>>> _memoFromJson(
+  //     List<Map<String, dynamic>> json) {
+  //   //Box<BlockitRichTextModel> memoBox = Hive.box(HiveBoxes.memoBox);
 
-    for (int i = 0; i < json.length; i++) {
-      BlockitRichTextModel text = BlockitRichTextModel.fromJson(json[i]);
+  //   List<List<Map<String, dynamic>>> out = [];
 
-      // BlockitRichTextModel? textFromBox =
-      //     textBox.get(created.millisecondsSinceEpoch.toString() + i.toString());
-      // if (textFromBox != null) {
-      //   if (textFromBox.compare(text)) {
-      //     textFromBox.delete();
-      //   }
-      // }
+  //   for (int i = 0; i < json.length; i++) {
+  //     BlockitRichTextModel text = BlockitRichTextModel.fromJson(json[i]);
 
-      out.add(text);
-    }
+  //     // BlockitRichTextModel? textFromBox =
+  //     //     textBox.get(created.millisecondsSinceEpoch.toString() + i.toString());
+  //     // if (textFromBox != null) {
+  //     //   if (textFromBox.compare(text)) {
+  //     //     textFromBox.delete();
+  //     //   }
+  //     // }
 
-    return HiveList(memoBox, objects: out);
-  }
+  //     out.add(text);
+  //   }
 
-  static List<Map<String, dynamic>> _memoToJson(
-      HiveList<BlockitRichTextModel> memo) {
-    List<Map<String, dynamic>> out = [];
-    memo.map((e) => out.add(e.toJson()));
-    return out;
-  }
+  //   return HiveList(memoBox, objects: out);
+  // }
 
-  String createdAtString() {
-    DateTime time = (isEdited ? edited! : created);
+  // static List<List<Map<String, dynamic>>> _memoToJson(
+  //     List<List<Map<String, dynamic>>> memo) {
+  //   List<Map<String, dynamic>> out = [];
+  //   memo.map((e) => out.add(e.toJson()));
+  //   return out;
+  // }
+
+  String editedAtString() {
+    DateTime time = lastEdited;
     String hourStr =
         time.hour < 12 ? '오전 ${time.hour}시' : '오후 ${time.hour - 12}시';
 
     return '${time.month}월 ${time.day}일 $hourStr ${time.minute}분${isEdited ? ' (수정됨)' : ''}';
   }
 
-  // String getMemeo
+  List<BlockitRichTextModel> getMemo(DateTime time) =>
+      memoHistory[time]!.toList();
+
+  List<BlockitRichTextModel> getLatestMemo() => getMemo(lastEdited);
+
+  // static MemosModel create({
+  //   required DateTime created,
+  //   required List<String> createdTextId,
+  //   List<String> memoTag = const [],
+  //   String title = "",
+  //   required int colorValue,
+  //   String imagePath = "",
+  //   String placeName = "",
+  //   String placeAddress = "",
+  //   int placeX = 0,
+  //   int placeY = 0,
+  //   required int memoWidgetType,
+  // }) {
+  //   Map<DateTime, List<String>> memoHistory = {};
+  //   memoHistory[created] = [];
+  //   for (String id in createdTextId) {
+  //     memoHistory[created]!.add(id);
+  //   }
+  //   String memoId = created.millisecondsSinceEpoch.toString();
+
+  //   return MemosModel(
+  //       memoTag: memoTag,
+  //       title: title,
+  //       colorValue: colorValue,
+  //       imagePath: imagePath,
+  //       placeName: placeName,
+  //       placeAddress: placeAddress,
+  //       placeX: placeX,
+  //       placeY: placeY,
+  //       memoWidgetType: memoWidgetType,
+  //       memoHistory: memoHistory,
+  //       memoId: memoId);
+  // }
 }

@@ -14,6 +14,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter<MemosModel>(MemosModelAdapter());
   Hive.registerAdapter<BlockitRichTextModel>(BlockitRichTextModelAdapter());
+  Hive.registerAdapter<BlockitRichTextType>(BlockitRichTextTypeAdapter());
 
   // open HIVE BOX
   await Hive.openBox<MemosModel>(HiveBoxes.memoBox);
