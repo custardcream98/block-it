@@ -46,7 +46,9 @@ class _MemoListState extends State<MemoList> {
         alignment: isDelete ? Alignment.centerRight : Alignment.centerLeft,
         decoration: BoxDecoration(
             borderRadius: AppThemeData.defaultBoxBorderRadius,
-            color: isDelete ? Colors.red : Colors.green),
+            color: isDelete
+                ? const Color.fromARGB(255, 248, 154, 147)
+                : const Color.fromARGB(255, 157, 235, 172)),
         child: Icon(
           isDelete ? Icons.delete_rounded : Icons.edit,
           size: 20,

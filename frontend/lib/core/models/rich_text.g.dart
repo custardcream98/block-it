@@ -61,6 +61,8 @@ class BlockitRichTextTypeAdapter extends TypeAdapter<BlockitRichTextType> {
         return BlockitRichTextType.quote;
       case 3:
         return BlockitRichTextType.bullet;
+      case 4:
+        return BlockitRichTextType.box;
       default:
         return BlockitRichTextType.p;
     }
@@ -80,6 +82,9 @@ class BlockitRichTextTypeAdapter extends TypeAdapter<BlockitRichTextType> {
         break;
       case BlockitRichTextType.bullet:
         writer.writeByte(3);
+        break;
+      case BlockitRichTextType.box:
+        writer.writeByte(4);
         break;
     }
   }

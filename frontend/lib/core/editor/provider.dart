@@ -44,8 +44,7 @@ class EditorProvider with ChangeNotifier {
   FocusNode focusNodeAt(int index) => _focusNodes.elementAt(index);
   TextEditingController textControllerAt(int index) =>
       _textControllers.elementAt(index);
-  String textAt(int index) =>
-      _textControllers.elementAt(index).text.replaceFirst('\u200B', "");
+  String textAt(int index) => _textControllers.elementAt(index).text;
   BlockitRichTextType typeAt(int index) => _types.elementAt(index);
 
   void setType(BlockitRichTextType type) {
@@ -71,33 +70,11 @@ class EditorProvider with ChangeNotifier {
       String? text,
       BlockitRichTextType type = BlockitRichTextType.p}) {
     final TextEditingController controller =
-        TextEditingController(text: '\u200B${text ?? ''}');
+        TextEditingController(text: text ?? '');
 
     controller.addListener(() {
       final int index = _textControllers.indexOf(controller);
 
-      if (!controller.text.startsWith('\u200B')) {
-        if (index > 0) {
-          if (typeAt(index) != BlockitRichTextType.bullet) {
-            textControllerAt(index - 1).text += controller.text;
-            textControllerAt(index - 1).selection = TextSelection.fromPosition(
-                TextPosition(
-                    offset: textControllerAt(index - 1).text.length -
-                        controller.text.length));
-            focusNodeAt(index - 1).requestFocus();
-            selectedType = BlockitRichTextType.p;
-            _textControllers.removeAt(index);
-            _focusNodes.removeAt(index);
-            _types.removeAt(index);
-          } else {
-            setType(BlockitRichTextType.bullet);
-            controller.text = '\u200B${controller.text}';
-            controller.selection =
-                TextSelection.fromPosition(const TextPosition(offset: 1));
-          }
-          notifyListeners();
-        }
-      }
       if (controller.text.contains('\n')) {
         List<String> split = controller.text.split('\n');
         controller.text = split.first;
@@ -106,9 +83,11 @@ class EditorProvider with ChangeNotifier {
             text: split.last,
             type: typeAt(index) == BlockitRichTextType.bullet
                 ? BlockitRichTextType.bullet
-                : BlockitRichTextType.p);
+                : typeAt(index) == BlockitRichTextType.box
+                    ? BlockitRichTextType.box
+                    : BlockitRichTextType.p);
         textControllerAt(index + 1).selection =
-            TextSelection.fromPosition(const TextPosition(offset: 1));
+            TextSelection.fromPosition(const TextPosition(offset: 0));
         focusNodeAt(index + 1).requestFocus();
         notifyListeners();
       }
@@ -120,6 +99,8 @@ class EditorProvider with ChangeNotifier {
     FocusNode focusNode = FocusNode();
 
     focusNode.onKeyEvent = ((focusNode, keyEvent) {
+      final int index = _textControllers.indexOf(controller);
+
       if (keyEvent.runtimeType == KeyDownEvent) {
         if (keyEvent.logicalKey == LogicalKeyboardKey.arrowUp) {
           moveUpDown(index, -1);
@@ -127,12 +108,38 @@ class EditorProvider with ChangeNotifier {
         } else if (keyEvent.logicalKey == LogicalKeyboardKey.arrowDown) {
           moveUpDown(index, 1);
           return KeyEventResult.handled;
+        } else if (keyEvent.logicalKey == LogicalKeyboardKey.backspace) {
+          if (index > 0) {
+            if (textControllerAt(index).selection.baseOffset == 0 &&
+                textControllerAt(index).selection.isCollapsed) {
+              if (typeAt(index) != BlockitRichTextType.bullet) {
+                textControllerAt(index - 1).text += controller.text;
+                textControllerAt(index - 1).selection =
+                    TextSelection.fromPosition(TextPosition(
+                        offset: textControllerAt(index - 1).text.length -
+                            controller.text.length));
+                focusNodeAt(index - 1).requestFocus();
+                selectedType = BlockitRichTextType.p;
+                _textControllers.removeAt(index);
+                _focusNodes.removeAt(index);
+                _types.removeAt(index);
+              } else {
+                setType(BlockitRichTextType.bullet);
+                controller.selection =
+                    TextSelection.fromPosition(const TextPosition(offset: 0));
+              }
+              notifyListeners();
+              return KeyEventResult.handled;
+            }
+          }
         }
       }
       return KeyEventResult.ignored;
     });
     focusNode.addListener(() {
       if (focusNode.hasFocus) {
+        final int index = _textControllers.indexOf(controller);
+
         lastFocus = index;
       }
     });
@@ -145,7 +152,7 @@ class EditorProvider with ChangeNotifier {
     if ((index > 0 && moveAmount < 0) ||
         (index < length - 1 && moveAmount > 0)) {
       int? offset;
-      int textAtOffset = textAt(index + moveAmount).length + 1;
+      int textAtOffset = textAt(index + moveAmount).length;
       if (textControllerAt(index).selection.isCollapsed &&
           typeAt(index) == typeAt(index + moveAmount)) {
         offset = textControllerAt(index).selection.baseOffset;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -122,8 +121,7 @@ class AppBarActions {
               MaterialPageRoute(
                 builder: (context) => const EditMemoScreen(),
               )),
-          icon:
-              const Icon(CupertinoIcons.plus_rectangle_fill_on_rectangle_fill))
+          icon: const Icon(Icons.add_rounded))
     ];
   }
 }

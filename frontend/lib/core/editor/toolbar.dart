@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -73,6 +74,10 @@ class _ToolBarState extends State<ToolBar> {
                       icondata: Icons.format_list_bulleted_rounded,
                       selectedType: selectedType,
                       type: BlockitRichTextType.bullet),
+                  _typeActionButton(
+                      icondata: CupertinoIcons.textbox,
+                      selectedType: selectedType,
+                      type: BlockitRichTextType.box),
                 ]),
           ),
           if (isToolBarBottom) ...[

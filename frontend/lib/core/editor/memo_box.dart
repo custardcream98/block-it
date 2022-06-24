@@ -33,8 +33,10 @@ class MemoBox extends StatelessWidget {
                 borderRadius: AppThemeData.defaultBoxBorderRadius,
                 boxShadow: AppThemeData.defaultBoxShadow),
             child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: memoTextModelList.length,
+                padding: EdgeInsets.zero,
                 itemBuilder: (context, index) =>
                     BlockitRichText(richText: memoTextModelList[index]))),
         Positioned.fill(

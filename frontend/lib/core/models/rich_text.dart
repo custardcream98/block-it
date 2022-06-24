@@ -63,7 +63,10 @@ enum BlockitRichTextType {
   quote,
   @JsonValue("bullet")
   @HiveField(3)
-  bullet
+  bullet,
+  @JsonValue("box")
+  @HiveField(4)
+  box
 }
 
 extension BlockitRichTextStyle on BlockitRichTextType {
@@ -85,13 +88,15 @@ extension BlockitRichTextStyle on BlockitRichTextType {
   EdgeInsets get padding {
     switch (this) {
       case BlockitRichTextType.h1:
-        return const EdgeInsets.fromLTRB(2, 17, 16, 5);
+        return const EdgeInsets.fromLTRB(0, 15, 0, 5);
       case BlockitRichTextType.quote:
-        return const EdgeInsets.fromLTRB(2, 10, 16, 10);
+        return const EdgeInsets.fromLTRB(0, 10, 0, 10);
       case BlockitRichTextType.bullet:
-        return const EdgeInsets.fromLTRB(10, 2, 16, 2);
+        return const EdgeInsets.fromLTRB(10, 2, 0, 2);
+      case BlockitRichTextType.box:
+        return const EdgeInsets.fromLTRB(13, 5, 0, 5);
       default:
-        return const EdgeInsets.fromLTRB(2, 2, 16, 2);
+        return const EdgeInsets.fromLTRB(0, 5, 0, 5);
     }
   }
 
@@ -123,6 +128,8 @@ extension BlockitRichTextStyle on BlockitRichTextType {
         return "글머리 표";
       case BlockitRichTextType.p:
         return "문단";
+      case BlockitRichTextType.box:
+        return "박스";
     }
   }
 
